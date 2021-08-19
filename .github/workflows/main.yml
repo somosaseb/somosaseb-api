@@ -8,6 +8,34 @@ on:
   workflow_dispatch:
 
 jobs:
+  backend-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.3
+
+      - uses: actions/cache@v2
+        with:
+          path: venv
+          key: ${{ runner.os }}-pip-lint
+
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          test ! -d venv && python -m venv venv ||:
+          source venv/bin/activate
+          python -m pip install --upgrade black isort flake8
+
+      - run: venv/bin/black --diff --color --check src/cylitic tests
+
+      - run: venv/bin/isort --diff --check src/cylitic tests
+
+      - run: venv/bin/flake8 -j4 --show-source src/cylitic
+
   backend:
     runs-on: ubuntu-latest
     services:
