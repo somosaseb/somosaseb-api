@@ -1,0 +1,17 @@
+-r ./requirements.txt
+
+mypy
+pytest
+pytest-sugar
+pytest-django
+
+pylint
+pylint-django
+flake8
+coverage
+black
+
+Werkzeug
+ipdb
+
+django-debug-toolbar
