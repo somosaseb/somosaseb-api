@@ -1,5 +1,3 @@
-import uuid
-
 from django.db import models
 
 from aseb.apps.organization.models import Interest, Market, Member
