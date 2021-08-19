@@ -30,11 +30,11 @@ jobs:
           source venv/bin/activate
           python -m pip install --upgrade black isort flake8
 
-      - run: venv/bin/black --diff --color --check src/cylitic tests
+      - run: venv/bin/black --diff --color --check src/aseb tests
 
-      - run: venv/bin/isort --diff --check src/cylitic tests
+      - run: venv/bin/isort --diff --check src/aseb tests
 
-      - run: venv/bin/flake8 -j4 --show-source src/cylitic
+      - run: venv/bin/flake8 -j4 --show-source src/aseb
 
   backend:
     runs-on: ubuntu-latest
