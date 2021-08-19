@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eux
+cd /app
+
+gosu ${APP_USER} uwsgi --ini uwsgi.ini
