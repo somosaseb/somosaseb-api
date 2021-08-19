@@ -19,5 +19,5 @@ class MarketAdmin(admin.ModelAdmin):
 
 
 @admin.register(Member)
-class MarketAdmin(admin.ModelAdmin):
+class MemberAdmin(admin.ModelAdmin):
     search_fields = ("contact_email", "first_name", "last_name")
