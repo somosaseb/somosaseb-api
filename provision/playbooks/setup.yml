@@ -1,0 +1,220 @@
+- hosts: web1
+  become: yes
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+  tasks:
+    - name: Check correct ubuntu release
+      fail:
+        msg: "Ubuntu 20.04 required, found {{ ansible_distribution }} {{ ansible_distribution_version }}"
+      when: not (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04')
+
+    - name: Set default hostname aliases
+      lineinfile: "dest=/etc/hosts line='{{ item.ip }} {{ item.hostname }}' owner=root group=root mode=0644"
+      tags: hosts
+      with_items:
+        - { ip: "127.0.0.1", hostname: "{{ hostname }}" }
+        - { ip: "127.0.1.1", hostname: "{{ hostname }}" }
+
+    - name: Set hostname
+      hostname: "name={{ hostname }}"
+
+    - name: Make sure ssh password authentication is turn off
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        line: "PasswordAuthentication no"
+        insertafter: EOF
+        state: present
+
+    - name: Set modern host key
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        line: "HostKey /etc/ssh/ssh_host_ed25519_key"
+        insertafter: EOF
+        state: present
+
+    - name: Do not accept env variables from incomming connections in ssh
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: ^AcceptEnv
+        insertafter: EOF
+        state: absent
+
+    - name: Install aptitude server
+      apt:
+        name: aptitude
+        state: present
+        update_cache: yes
+
+    - name: Enable universe repository
+      apt_repository:
+        repo: "{{ item }}"
+      loop:
+        - "deb http://archive.ubuntu.com/ubuntu/ focal universe"
+        - "deb http://archive.ubuntu.com/ubuntu/ focal-updates universe"
+        - "deb http://security.ubuntu.com/ubuntu/ focal-security universe"
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: "yes"
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: Install unattended upgrades
+      apt: name=unattended-upgrades state=present
+
+    - name: Install ntp server
+      apt: name=ntp state=present
+
+    - name: Ensure ntpd is running and enabled
+      service: name=ntp state=started enabled=yes
+
+    - name: Install common tools
+      apt:
+        state: present
+        name:
+          - htop
+          - tree
+          - tmux
+          - curl
+          - wget
+          - vim
+          - host
+          - software-properties-common
+          - ca-certificates
+          - python3
+          - python3-pip
+          - gnupg2
+          - ca-certificates
+          - lsb-release
+
+    - name: Upgrade pip to latest
+      pip: name=pip state=latest
+
+    - name: Set useful sysctl settings
+      sysctl: "name={{ item.name }} value={{ item.value }} sysctl_set=yes"
+      with_items:
+        - { name: "fs.file-max", value: "2097152" }
+        - { name: "net.core.somaxconn", value: 7600 }
+
+    - name: Uninstall unwanted packages
+      apt:
+        state: absent
+        name:
+          - accountsservice
+
+    - name: Deploy User
+      block:
+        - name: Create deploy group
+          group:
+            name: "{{ deploy_user }}"
+            state: present
+
+        - name: Create deploy user
+          user:
+            name: "{{ deploy_user }}"
+            group: "{{ deploy_user }}"
+            state: present
+            generate_ssh_key: yes
+
+    - name: SSHGuard
+      block:
+        - name: Install sshguard
+          apt: name=sshguard state=present
+
+        - name: Ensure sshguard is running and enabled
+          service: name=sshguard state=started enabled=yes
+
+    - name: NGinx
+      tags: nginx
+      block:
+        - name: NGinx | Add key for repository
+          apt_key:
+            url: https://nginx.org/keys/nginx_signing.key
+
+        - name: NGinx | Ensure nginx apt repository is up to date
+          apt_repository:
+            repo: "deb http://nginx.org/packages/ubuntu bionic nginx"
+            state: present
+            update_cache: yes
+
+        - name: Install nginx
+          apt: name=nginx state=present
+
+        - name: Nginx Service
+          service: name=nginx state=started
+
+        - name: Vhost
+          tags: vhost
+          copy:
+            src: files/app.aseb.bo.conf
+            dest: /etc/nginx/sites-available/app.aseb.bo.conf
+            mode: 0775
+          notify: restart nginx
+
+    - name: Docker
+      tags: docker
+      block:
+        - name: Docker | Add docker key
+          apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+
+        - name: Docker | Add docker repository
+          apt_repository:
+            repo: deb https://download.docker.com/linux/ubuntu bionic stable
+            state: present
+            update_cache: yes
+
+        - name: Docker | Install docker
+          apt:
+            name: docker-ce
+            state: present
+
+        - name: Docker | Ensure docker service is installed and enabled
+          service:
+            name: docker
+            state: started
+            enabled: yes
+
+        - name: Docker | Ensure docker group exists
+          group:
+            name: docker
+            state: present
+
+        - name: Docker | Add admin to the docker group
+          user:
+            name: "{{ deploy_user }}"
+            groups: docker
+            append: yes
+
+    - name: Redis
+      tags: redis
+      block:
+        - name: Redis | Install redis server
+          apt: name=redis-server state=present
+
+        - name: Redis | enable overcommit in sysctl
+          sysctl:
+            name: vm.overcommit_memory
+            value: "1"
+            state: present
+            reload: yes
+
+    - name: Postgres
+      tags: postgres
+      block:
+        - name: Postgres | Add postgres key
+          apt_key:
+            url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+            state: present
+
+        - name: Postgres | Add postgres repository
+          apt_repository:
+            repo: deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+            state: present
+            update_cache: yes
+
+        - name: Postgres | Install postgres
+          apt: "name=postgresql-12 state=present"
