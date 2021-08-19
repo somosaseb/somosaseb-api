@@ -5,7 +5,12 @@ from aseb.core.db.fields import UUIDPrimaryKey
 from aseb.core.db.models.base import AuditedModel, ContactModel, User, WebPageModel
 
 emoji_validator = RegexValidator(
-    r"(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])"
+    r"(\u00a9|"
+    r"\u00ae|"
+    r"[\u2000-\u3300]|"
+    r"\ud83c[\ud000-\udfff]|"
+    r"\ud83d[\ud000-\udfff]|"
+    r"\ud83e[\ud000-\udfff])"
 )
 
 
