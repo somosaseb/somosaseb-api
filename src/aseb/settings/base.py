@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     "drf_yasg",
     "rest_framework",
     "rest_framework_simplejwt",
-    "graphene_django",
     "aseb.apps.users.apps.UsersConfig",
     "aseb.apps.events",
     "aseb.apps.organization",
@@ -199,6 +198,5 @@ LOGGING = {
             "propagate": False,
         },
         "app": {"level": "DEBUG", "propagate": True},
-        "graphql.execution.utils": {"propagate": False, "handlers": ["null"]},
     },
 }
