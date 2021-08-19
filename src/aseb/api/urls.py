@@ -1,12 +1,7 @@
 from django.urls import path
 
 from .router import Router
-from .users.viewsets import (
-    CurrentUserViewSet,
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+from .users.viewsets import CurrentUserViewSet, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 router = Router()
 

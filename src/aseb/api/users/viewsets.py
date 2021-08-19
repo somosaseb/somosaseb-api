@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework_simplejwt import views as jwt_views
 
 from .serializers import (
-    UserSerializer,
     TokenObtainPairResponseSerializer,
     TokenRefreshResponseSerializer,
     TokenVerifyResponseSerializer,
+    UserSerializer,
 )
 
 

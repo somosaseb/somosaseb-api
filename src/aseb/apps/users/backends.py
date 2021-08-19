@@ -1,13 +1,11 @@
 from pprint import pprint
 from typing import Optional
+
+from django.contrib.auth.backends import BaseBackend, ModelBackend
 from django.http import HttpRequest
-from django.contrib.auth.backends import ModelBackend, BaseBackend
+
 from aseb.apps.users.models import User
-from aseb.apps.users.utils import (
-    get_user_by_email,
-    get_user_by_id,
-    user_can_authenticate,
-)
+from aseb.apps.users.utils import get_user_by_email, get_user_by_id, user_can_authenticate
 
 
 class PermissionMixin:

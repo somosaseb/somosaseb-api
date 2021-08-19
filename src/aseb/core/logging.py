@@ -1,6 +1,7 @@
-from pythonjsonlogger.jsonlogger import JsonFormatter as BaseFormatter
 import platform
 import time
+
+from pythonjsonlogger.jsonlogger import JsonFormatter as BaseFormatter
 
 
 class JsonFormatter(BaseFormatter):

@@ -1,8 +1,9 @@
 import os
 from uuid import uuid4
+
+from django.db.models import base
 from django.utils.deconstruct import deconstructible
 from django.utils.text import slugify
-from django.db.models import base
 
 
 @deconstructible

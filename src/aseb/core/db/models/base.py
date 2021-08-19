@@ -1,9 +1,10 @@
-from typing import Optional
 from functools import partial
-from django.db import models
+from typing import Optional
+
 from django.contrib.auth import get_user_model
-from django.db.models.functions import Now
 from django.core.cache import cache
+from django.db import models
+from django.db.models.functions import Now
 from django_editorjs_fields import EditorJsJSONField
 
 from aseb.core.db.utils import UploadToFunction

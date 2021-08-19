@@ -4,7 +4,7 @@ from django.db import models
 
 from aseb.apps.organization.models import Interest, Market, Member
 from aseb.core.db.fields import UUIDPrimaryKey
-from aseb.core.db.models.base import AuditedModel, WebPageModel, PublishableModel
+from aseb.core.db.models.base import AuditedModel, PublishableModel, WebPageModel
 from aseb.core.db.utils import UploadToFunction
 
 event_image_upload = UploadToFunction("events/{obj.pk}/{filename}.{ext}")

@@ -1,7 +1,5 @@
+from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import UserManager as BaseUserManager
-
 from django.utils.crypto import get_random_string
 
 

@@ -1,8 +1,8 @@
 import os
 from datetime import timedelta
+from pathlib import Path
 
 import dj_database_url
-from pathlib import Path
 
 env = os.environ.get
 
