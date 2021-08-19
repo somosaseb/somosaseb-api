@@ -15,7 +15,9 @@ def test_user_creation():
 
     assert "email" in err.value.message_dict
 
-    user = User.objects.create_user(username="username", email="user@eMail.com", password="password")
+    user = User.objects.create_user(
+        username="username", email="user@eMail.com", password="password"
+    )
 
     assert user.email == "user@email.com", "Email has to be normalized"
     assert user.is_active, "User is active."
@@ -24,6 +26,6 @@ def test_user_creation():
     assert not user.is_staff, "User is not staff."
 
     with pytest.raises(IntegrityError) as err:
-        User.objects.create_user("username", "password")
+        User.objects.create_user("user@email.com", "password")
 
-    assert err.match("UNIQUE constraint failed: auth_user.username")
+    assert err.match("duplicate key value violates unique constraint")
