@@ -74,7 +74,7 @@ class User(AbstractUser):
         max_length=50,
         blank=True,
         help_text="Required. 50 characters or fewer. Letters, digits and -/_ only.",
-        validators=[RegexValidator(r"^[\w-.]+\Z")],
+        validators=[RegexValidator(r"^[\w_\-.]+\Z")],
     )
 
     avatar = models.ImageField(upload_to=user_avatar_upload, blank=True)
