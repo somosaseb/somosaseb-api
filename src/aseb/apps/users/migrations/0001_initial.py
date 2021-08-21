@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                                 "length": 42,
                             },
                         ),
-                        max_length=24,
+                        max_length=42,
                     ),
                 ),
                 (
