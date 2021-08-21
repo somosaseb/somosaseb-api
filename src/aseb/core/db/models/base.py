@@ -58,21 +58,6 @@ class AuditedModel(BaseModel):
         self.save(update_fields=("removed_at", "removed_by"))
 
 
-class ContactModel(BaseModel):
-    contact_phone = models.CharField(blank=True, max_length=40)
-    contact_email = models.EmailField(blank=True)
-    location_city = models.CharField(blank=True, max_length=100)
-    location_country = models.CharField(blank=True, max_length=100)
-    link_facebook = models.CharField(blank=True, max_length=200)
-    link_instagram = models.CharField(blank=True, max_length=200)
-    link_linkedIn = models.CharField(blank=True, max_length=200)
-    link_website = models.CharField(blank=True, max_length=200)
-    link_twitter = models.CharField(blank=True, max_length=200)
-
-    class Meta:
-        abstract = True
-
-
 class SingletonManager(models.Manager):
     """Singleton Manager that will manage the cache of the only instance of the model."""
 

@@ -1,8 +1,12 @@
+import string
+from functools import partial
+
 from django.core.validators import RegexValidator
 from django.db import models
-
-from aseb.core.db.fields import UUIDPrimaryKey
-from aseb.core.db.models.base import AuditedModel, ContactModel, User, WebPageModel
+from django.utils.crypto import get_random_string
+from aseb.core.db.fields import PropertiesField
+from aseb.core.db.models.base import AuditedModel, User, WebPageModel
+from aseb.core.forms import ContactForm
 
 emoji_validator = RegexValidator(
     r"(\u00a9|"
@@ -16,7 +20,7 @@ emoji_validator = RegexValidator(
 
 class Interest(models.Model):
     name = models.CharField(max_length=100)
-    emoji = models.CharField(validators=[emoji_validator], max_length=1)
+    emoji = models.CharField(validators=[emoji_validator], max_length=3)
 
     class Meta:
         ordering = ("name",)
@@ -36,7 +40,32 @@ class Market(models.Model):
         return f"{self.name}"
 
 
-class Company(AuditedModel, ContactModel, WebPageModel):
+get_profile_slug = partial(get_random_string, allowed_chars=string.digits, length=20)
+
+
+class ProfileModel(AuditedModel, WebPageModel):
+    display_name = models.CharField(max_length=140, blank=True)
+    headline = models.CharField(max_length=140, blank=True)
+    presentation = models.TextField(blank=True)
+    contact = PropertiesField(form_class=ContactForm)
+    interests = models.ManyToManyField(Interest, blank=True)
+    markets = models.ManyToManyField(Market, verbose_name="Market's of interest", blank=True)
+
+    class Meta:
+        abstract = True
+
+    def save(self, **kwargs):
+        if not self.slug:
+            # Generate a random identifier for the profile.
+            self.slug = get_profile_slug()
+
+            while ProfileModel.objects.filter(slug=self.slug).exists():
+                self.slug = get_profile_slug()
+
+        super().save(**kwargs)
+
+
+class Company(ProfileModel):
     class Size(models.IntegerChoices):
         S1 = 1, "1 - 4 employees"
         S2 = 2, "5 - 9 employees"
@@ -48,39 +77,30 @@ class Company(AuditedModel, ContactModel, WebPageModel):
         S8 = 8, "500 - 999 employees"
         S9 = 9, "1,000+ employees"
 
-    headline = models.CharField(max_length=140, blank=True)
-    presentation = models.TextField(blank=True)
-    markets = models.ManyToManyField(Market, verbose_name="Market's of interest")
     size = models.IntegerField(choices=Size.choices, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "companies"
 
 
-class Member(AuditedModel, ContactModel, WebPageModel):
+class Member(ProfileModel):
     class Type(models.TextChoices):
         MEMBER = "member", "Member"
-        PARTNER_INDIVIDUAL = "partnerIndividual", "Individual Partner"
-        PARTNER_CORPORATE = "partnerCorporate", "Corporate Partner"
+        PARTNER = "partner", "Partner"
 
     class Position(models.TextChoices):
         PRESIDENT = "president", "President"
         ADVISOR = "advisor", "Advisor"
         BOARD_MEMBER = "boardMember", "Board Member"
 
-    id = UUIDPrimaryKey()
     login = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     first_name = models.CharField(max_length=140, blank=True)
     last_name = models.CharField(max_length=140, blank=True)
-    display_name = models.CharField(max_length=140, blank=True)
+    birthday = models.DateField(blank=True, null=True)
 
-    headline = models.CharField(max_length=140, blank=True)
-    presentation = models.TextField(blank=True)
     type = models.CharField(max_length=20, choices=Type.choices)
     position = models.CharField(max_length=20, choices=Position.choices, blank=True, null=True)
 
-    interests = models.ManyToManyField(Interest, blank=True)
-    markets = models.ManyToManyField(Market, verbose_name="Market's of interest", blank=True)
     company = models.ForeignKey(
         Company,
         related_name="members",
@@ -88,6 +108,7 @@ class Member(AuditedModel, ContactModel, WebPageModel):
         blank=True,
         null=True,
     )
+
     nominated_by = models.ForeignKey(
         "self",
         related_name="nominated_members",
