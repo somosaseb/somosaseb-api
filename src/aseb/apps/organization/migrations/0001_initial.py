@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ("display_name", models.CharField(blank=True, max_length=140)),
                 ("headline", models.CharField(blank=True, max_length=140)),
                 ("presentation", models.TextField(blank=True)),
-                ("contact", aseb.core.db.fields.PropertiesField(default=dict)),
+                ("contact", aseb.core.db.fields.PropertiesField(default=dict, blank=True)),
                 (
                     "size",
                     models.IntegerField(
