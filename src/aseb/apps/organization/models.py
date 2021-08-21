@@ -68,10 +68,14 @@ class Company(ProfileModel):
         S8 = 8, "500 - 999 employees"
         S9 = 9, "1,000+ employees"
 
+    display_name = models.CharField(max_length=140)
     size = models.IntegerField(choices=Size.choices, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "companies"
+
+    def __str__(self):
+        return self.display_name
 
 
 class Member(ProfileModel):
@@ -85,8 +89,8 @@ class Member(ProfileModel):
         BOARD_MEMBER = "boardMember", "Board Member"
 
     login = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    first_name = models.CharField(max_length=140, blank=True)
-    last_name = models.CharField(max_length=140, blank=True)
+    first_name = models.CharField(max_length=140)
+    last_name = models.CharField(max_length=140)
     birthday = models.DateField(blank=True, null=True)
 
     type = models.CharField(max_length=20, choices=Type.choices)
@@ -114,3 +118,6 @@ class Member(ProfileModel):
     mentor_since = models.DateTimeField(blank=True, null=True)
     mentor_interests = models.ManyToManyField(Interest, related_name="+", blank=True)
     mentor_presentation = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
