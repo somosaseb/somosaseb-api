@@ -16,6 +16,12 @@ requirements-develop.txt: requirements.txt
 runserver:
 	python src/manage.py runserver 0.0.0.0:8000
 
+.PHONY: check
+check:
+	black src/
+	isort src/
+	flake8 src/
+
 .PHONY: build
 build:
 	test ! -d /app
