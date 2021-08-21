@@ -4,7 +4,7 @@ from functools import partial
 from django.db import models
 from django.utils.crypto import get_random_string
 
-from aseb.core.db.fields import PropertiesField, EmojiChooseField
+from aseb.core.db.fields import EmojiChooseField, PropertiesField
 from aseb.core.db.models.base import AuditedModel, User, WebPageModel
 from aseb.core.forms import ContactForm
 
