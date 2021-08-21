@@ -19,6 +19,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "aseb.core.apps.CoreConfig",
+    "aseb.core.apps.AdminConfig",
     "django.contrib.admindocs",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -119,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "public/static"
+STATIC_ROOT = BASE_DIR / "../public/static"
 STATIC_URL = "/static/"
 
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
@@ -128,7 +129,7 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-MEDIA_ROOT = BASE_DIR / "public/media"
+MEDIA_ROOT = BASE_DIR / "../public/media"
 MEDIA_URL = "/media/"
 
 SILENCED_SYSTEM_CHECKS = ["fields.W342"]

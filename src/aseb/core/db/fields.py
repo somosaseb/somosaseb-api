@@ -5,6 +5,7 @@ from uuid import uuid4
 import emoji
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.forms import widgets
 
 from aseb.core.forms import PropertyForm
 
@@ -67,4 +68,5 @@ class EmojiChooseField(models.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("max_length", 3)
+
         super().__init__(*args, **kwargs)
