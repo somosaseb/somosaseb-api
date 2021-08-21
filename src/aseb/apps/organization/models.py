@@ -38,7 +38,7 @@ class ProfileModel(AuditedModel, WebPageModel):
     display_name = models.CharField(max_length=140, blank=True)
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
-    contact = PropertiesField(form_class=ContactForm, blank=False)
+    contact = PropertiesField(form_class=ContactForm, blank=True)
     interests = models.ManyToManyField(Interest, blank=True)
     markets = models.ManyToManyField(Market, verbose_name="Market's of interest", blank=True)
 
