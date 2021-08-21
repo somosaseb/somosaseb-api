@@ -4,6 +4,7 @@ from functools import partial
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.crypto import get_random_string
+
 from aseb.core.db.fields import PropertiesField
 from aseb.core.db.models.base import AuditedModel, User, WebPageModel
 from aseb.core.forms import ContactForm
@@ -118,3 +119,8 @@ class Member(ProfileModel):
     )
     activated_at = models.DateField(blank=True, null=True)
     expires_at = models.DateField(blank=True, null=True)
+
+    # Mentor Profile
+    mentor_since = models.DateTimeField(blank=True, null=True)
+    mentor_interests = models.ManyToManyField(Interest, related_name="+", blank=True)
+    mentor_presentation = models.TextField(blank=True)
