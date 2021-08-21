@@ -1,10 +1,12 @@
+import string
+from functools import partial
+
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.crypto import get_random_string
 
-
-def get_random_secret_key() -> str:
-    return get_random_string(length=24)
+from aseb.core.db.utils import UploadToFunction
 
 
 class UserManager(BaseUserManager):
@@ -52,15 +54,30 @@ class UserManager(BaseUserManager):
         )
 
 
+user_avatar_upload = UploadToFunction("avatars/{obj.pk}.{ext}")
+
+get_random_secret_key = partial(
+    get_random_string,
+    allowed_chars=string.ascii_lowercase + string.digits + "-_=+",
+    length=42,
+)
+get_random_username = partial(
+    get_random_string,
+    allowed_chars="123456789",  # We ignore 0 to avoid usernames that starts with it..
+    length=16,
+)
+
+
 class User(AbstractUser):
     username = models.CharField(
         "username",
-        max_length=150,
+        max_length=50,
         blank=True,
-        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
-        validators=[AbstractUser.username_validator],
+        help_text="Required. 50 characters or fewer. Letters, digits and -/_ only.",
+        validators=[RegexValidator(r"^[\w-.]+\Z")],
     )
 
+    avatar = models.ImageField(upload_to=user_avatar_upload, blank=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=256, blank=True)
     last_name = models.CharField(max_length=256, blank=True)
@@ -80,3 +97,13 @@ class User(AbstractUser):
     def generate_secret_key(self):
         self.secret_key = get_random_secret_key()
         self.save(update_fields=["secret_key"])
+
+    def save(self, **kwargs):
+        if not self.username:
+            # Random unique username, could be useful for later as an alternative to ID's
+            self.username = get_random_username()
+
+            while User.objects.filter(username=self.username).exists():
+                self.username = get_random_username()
+
+        super().save(**kwargs)
