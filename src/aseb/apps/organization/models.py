@@ -1,25 +1,17 @@
 import string
 from functools import partial
 
-from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.crypto import get_random_string
 
-from aseb.core.db.fields import PropertiesField
+from aseb.core.db.fields import PropertiesField, EmojiChooseField
 from aseb.core.db.models.base import AuditedModel, User, WebPageModel
 from aseb.core.forms import ContactForm
-import emoji
-
-
-def validate_is_emoji(value):
-    if value not in emoji.UNICODE_EMOJI_ALIAS_ENGLISH:
-        raise ValidationError(f"{value!r} is not an emoji.")
 
 
 class Interest(models.Model):
     name = models.CharField(max_length=100)
-    emoji = models.CharField(validators=[validate_is_emoji], max_length=3)
+    emoji = EmojiChooseField()
 
     class Meta:
         ordering = ("name",)

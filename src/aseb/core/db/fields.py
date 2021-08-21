@@ -2,6 +2,7 @@ from functools import partial
 from typing import Type
 from uuid import uuid4
 
+import emoji
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -54,3 +55,16 @@ class PropertiesField(models.JSONField):
                 )
 
         super().validate(value, model_instance)
+
+
+def validate_is_emoji(value):
+    if value not in emoji.UNICODE_EMOJI_ALIAS_ENGLISH:
+        raise ValidationError(f"{value!r} is not an emoji.")
+
+
+class EmojiChooseField(models.CharField):
+    default_validators = [validate_is_emoji]
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length", 3)
+        super().__init__(*args, **kwargs)
