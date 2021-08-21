@@ -1,10 +1,11 @@
 from django.contrib import admin
 
 from .models import Company, Interest, Market, Member
+from ...core.admin import AdminAuditedModel
 
 
 @admin.register(Company)
-class CompanyAdmin(admin.ModelAdmin):
+class CompanyAdmin(AdminAuditedModel):
     search_fields = "slug", "display_name"
     list_display = "__str__", "size", "created_at"
     list_filter = ("markets",)
@@ -23,7 +24,7 @@ class MarketAdmin(admin.ModelAdmin):
 
 
 @admin.register(Member)
-class MemberAdmin(admin.ModelAdmin):
+class MemberAdmin(AdminAuditedModel):
     date_hierarchy = "created_at"
     list_display = "__str__", "type", "activated_at", "created_at"
     list_filter = "type", "position"
@@ -36,3 +37,68 @@ class MemberAdmin(admin.ModelAdmin):
         "nominated_by",
         "mentor_interests",
     )
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "display_name",
+                    "headline",
+                    "presentation",
+                    "interests",
+                    "markets",
+                    "birthday",
+                )
+            },
+        ),
+        (
+            "Membership",
+            {
+                "fields": [
+                    "type",
+                    "position",
+                    "company",
+                    "nominated_by",
+                    "activated_at",
+                    "expires_at",
+                ]
+            },
+        ),
+        (
+            "Mentor Program",
+            {
+                "fields": [
+                    "mentor_since",
+                    "mentor_interests",
+                    "mentor_presentation",
+                ]
+            },
+        ),
+        (
+            "Webpage",
+            {
+                "fields": [
+                    "title",
+                    "slug",
+                    "seo_title",
+                    "seo_description",
+                    "main_image",
+                ],
+                "classes": ["collapse"],
+            },
+        ),
+        (
+            "Important Dates",
+            {
+                "fields": [
+                    "created_at",
+                    "created_by",
+                    "modified_at",
+                    "modified_by",
+                ],
+                "classes": ["collapse"],
+            },
+        ),
+    ]
