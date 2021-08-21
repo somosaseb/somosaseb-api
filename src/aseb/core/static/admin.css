@@ -1,0 +1,139 @@
+
+:root {
+    --primary: #1a4942;
+    --secondary: #e6e6e6;
+    --accent: #f8cd88;
+    --primary-fg: #212529;
+
+    --body-fg: #212529;
+    --body-bg: #fff;
+    --body-quiet-color: #666;
+    --body-loud-color: #000;
+
+    --header-color: var(--primary);
+    --header-branding-color: var(--primary);
+    --header-bg: #fbf9f6;
+    --header-link-color: var(--primary);
+
+    --breadcrumbs-fg: #fff;
+    --breadcrumbs-link-fg: var(--accent);
+    --breadcrumbs-bg: var(--primary);
+
+    --link-fg: #1a4942;
+    --link-hover-color: #0e6f62;
+    --link-selected-fg: #529589;
+
+    --hairline-color: #e8e8e8;
+    --border-color: #ccc;
+
+    --error-fg: #ba2121;
+
+    --message-success-bg: #dfd;
+    --message-warning-bg: #ffc;
+    --message-error-bg: #ffefef;
+
+    --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
+    --selected-bg: #e4e4e4; /* E.g. selected table cells */
+    --selected-row: #ffc;
+
+    --button-fg: #fff;
+    --button-bg: var(--primary);
+    --button-hover-bg: #327168;
+    --default-button-bg: #529589;
+    --default-button-hover-bg: var(--button-hover-bg);
+    --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
+    --close-button-hover-bg: #747474;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #a41515;
+
+    --object-tools-fg: var(--button-fg);
+    --object-tools-bg: var(--close-button-bg);
+    --object-tools-hover-bg: var(--close-button-hover-bg);
+}
+
+html, body {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+label,
+td,
+th,
+li,
+dt,
+dd,
+input,
+textarea,
+select,
+h3,
+h4,
+form .button,
+.form-row p,
+.form-row,
+.module caption,
+.inline-group h2 {
+    font-size: inherit;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+.help, p.help, form p.help, div.help, form div.help, div.help li {
+    font-size: .85em;
+}
+
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=number],
+input[type=tel],
+textarea,
+select,
+.vTextField {
+    padding: .5rem .75rem;
+}
+
+select {
+    height: auto
+}
+
+#header {
+    border-bottom: 1px solid #eee;
+}
+
+#user-tools {
+    font-size: .95em;
+    letter-spacing: -.01em;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: var(--primary);
+    font-weight: 600;
+    letter-spacing: -.025em;
+}
+
+#site-name a {
+    display: flex;
+    align-items: center;
+}
+
+#site-name a svg {
+    margin-right: .25rem;
+}
+
+.mini {
+    font-size: .85rem;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: var(--secondary);
+    color: var(--header-link-color);
+    font-size: .85rem;
+}
+
+.xfull {
+    width: 100%;
+}

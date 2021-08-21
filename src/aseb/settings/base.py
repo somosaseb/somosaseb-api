@@ -18,6 +18,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "ordered_model",
     "aseb.core.apps.CoreConfig",
     "aseb.core.apps.AdminConfig",
     "django.contrib.admindocs",
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "import_export",
     "django_ltree",
     "django_filters",
     "django_extensions",

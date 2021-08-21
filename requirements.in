@@ -16,6 +16,8 @@ django-filter
 django-extensions
 django-ltree
 django-editorjs-fields
+django-import-export
+django-ordered-model
 dj-database-url
 
 djangorestframework

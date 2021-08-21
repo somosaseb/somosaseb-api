@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% spaceless %}
+    {% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} |
+    {{ site_title|default:_('Django site admin') }}
+{% endspaceless %}{% endblock %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            <svg data-v-2b23a8ea="" viewBox="0 0 400 400" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+                <path fill="#E84643" d="M204.749 46.804h146.16l46.41 89h-262z"></path>
+                <path fill="#E52925" d="M136.319 1.804l68.43 45-68.43 89z"></path>
+                <path fill="#26915A" d="M194.889 352.804H48.729l-46.41-89h262z"></path>
+                <path fill="#18864E" d="M264.319 397.804l-69.43-45 69.43-89z"></path>
+                <g>
+                    <path fill="#FFCF47" d="M352.319 204.969v145.603l-88 46.232v-261z"></path>
+                    <path fill="#FEC82E" d="M397.319 135.804l-45 69.165-88-69.165z"></path>
+                </g>
+                <g>
+                    <path fill="#FFCF47" d="M47.319 194.374V48.214l89-46.41v262z"></path>
+                    <path fill="#FEC82E" d="M2.319 263.804l45-69.812 89 69.812z"></path>
+                </g>
+            </svg>
+            <div>ASEB</div>
+        </a>
+    </h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
