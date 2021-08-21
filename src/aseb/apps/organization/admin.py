@@ -16,8 +16,17 @@ class InterestAdmin(admin.ModelAdmin):
 @admin.register(Market)
 class MarketAdmin(admin.ModelAdmin):
     search_fields = ("name",)
+    autocomplete_fields = ("sibling",)
 
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
     search_fields = ("contact_email", "first_name", "last_name")
+    autocomplete_fields = (
+        "interests",
+        "markets",
+        "login",
+        "company",
+        "nominated_by",
+        "mentor_interests",
+    )

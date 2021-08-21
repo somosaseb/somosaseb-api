@@ -8,6 +8,7 @@ pydash
 trafaret
 requests
 yarl
+emoji
 
 django
 django-environ
