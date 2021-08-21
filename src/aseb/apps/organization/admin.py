@@ -5,7 +5,10 @@ from .models import Company, Interest, Market, Member
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    search_fields = ("title", "slug")
+    search_fields = "slug", "display_name"
+    list_display = "__str__", "size", "created_at"
+    list_filter = ("markets",)
+    autocomplete_fields = "interests", "markets"
 
 
 @admin.register(Interest)
@@ -21,7 +24,10 @@ class MarketAdmin(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    search_fields = ("contact_email", "first_name", "last_name")
+    date_hierarchy = "created_at"
+    list_display = "__str__", "type", "activated_at", "created_at"
+    list_filter = "type", "position"
+    search_fields = "contact_email", "first_name", "last_name"
     autocomplete_fields = (
         "interests",
         "markets",
