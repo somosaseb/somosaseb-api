@@ -1,7 +1,8 @@
 from django.contrib import admin
 
+from aseb.core.admin import AdminAuditedModel
+
 from .models import Company, Interest, Market, Member
-from ...core.admin import AdminAuditedModel
 
 
 @admin.register(Company)
