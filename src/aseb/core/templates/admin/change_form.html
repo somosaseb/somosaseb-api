@@ -1,0 +1,42 @@
+{% extends 'admin/change_form.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        #content-main .row {
+            display: flex !important;
+        }
+
+        #content-main .row > .main {
+
+            flex-grow: 1;
+        }
+
+        #content-main .row > .aside {
+            flex-grow: 1;
+            max-width: 40%;
+            padding-left: 4rem;
+        }
+    </style>
+{% endblock %}
+
+{% block field_sets %}
+    <div class="row">
+        {# TODO: this is an inefficent loop, but I'm tired, lets refactor this later #}
+        <div class="main">
+            {% for fieldset in adminform %}
+                {% if "aside" not in fieldset.classes %}
+                    {% include "admin/includes/fieldset.html" %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="aside">
+            {% for fieldset in adminform %}
+                {% if "aside" in fieldset.classes %}
+                    {% include "admin/includes/fieldset.html" %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

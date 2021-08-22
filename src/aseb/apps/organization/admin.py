@@ -87,7 +87,7 @@ class MemberAdmin(AdminAuditedModel):
                     "seo_description",
                     "main_image",
                 ],
-                "classes": ["collapse"],
+                "classes": ["aside"],
             },
         ),
         (
@@ -99,7 +99,7 @@ class MemberAdmin(AdminAuditedModel):
                     "modified_at",
                     "modified_by",
                 ],
-                "classes": ["collapse"],
+                "classes": ["aside"],
             },
         ),
     ]

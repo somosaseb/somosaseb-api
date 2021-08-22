@@ -1,0 +1,27 @@
+{% extends 'admin/index.html' %}
+
+{% block content %}
+    <div id="content-main">
+        <div class="row">
+            <div class="col">
+                {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+            </div>
+            {% if not app_label %}
+                <div class="col">
+                    <div class="flex flex-auto flex-wrap">
+                        <div class="w-1/3"
+                             v-scope="DashboardPanel({ initialCount: 100, label: 'Total members' })"></div>
+                        <div class="w-1/3"
+                             v-scope="DashboardPanel({ initialCount: 40, label: 'Total partners' })"></div>
+                        <div class="w-1/3"
+                             v-scope="DashboardPanel({ initialCount: 22, label: 'Total events' })"></div>
+                        <div class="w-1/3"
+                             v-scope="DashboardPanel({ initialCount: 22, label: 'Total users' })"></div>
+                        <div class="w-1/3"
+                             v-scope="DashboardPanel({ initialCount: 22, label: 'Total users' })"></div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
