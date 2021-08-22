@@ -1,6 +1,6 @@
 from contextlib import contextmanager
-from django_filters.rest_framework import backends
 
+from django_filters.rest_framework import backends
 from rest_framework_filters.filterset import FilterSet
 
 

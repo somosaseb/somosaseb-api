@@ -1,9 +1,9 @@
-from pprint import pprint, pformat
+from pprint import pformat
 from typing import Any
 
 from django import template
-from django.utils.safestring import mark_safe
 from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 

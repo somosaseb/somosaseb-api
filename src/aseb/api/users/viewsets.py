@@ -1,8 +1,10 @@
 from drf_yasg.utils import swagger_auto_schema
-from aseb.api import viewsets
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt import views as jwt_views
+
+from aseb.api import viewsets
+from aseb.apps.users.models import User
 
 from .serializers import (
     TokenObtainPairResponseSerializer,
@@ -10,7 +12,6 @@ from .serializers import (
     TokenVerifyResponseSerializer,
     UserSerializer,
 )
-from ...apps.users.models import User
 
 
 class TokenObtainPairView(jwt_views.TokenObtainPairView):
