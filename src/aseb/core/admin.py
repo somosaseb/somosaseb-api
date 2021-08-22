@@ -1,7 +1,4 @@
-from pprint import pprint
-
 from django.contrib import admin
-
 from django.contrib.admin.utils import lookup_field
 from django.contrib.admin.views import main as admin_main_views
 from django.contrib.admin.views.main import ChangeList

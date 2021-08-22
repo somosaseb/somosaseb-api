@@ -1,4 +1,5 @@
 {% extends 'admin/index.html' %}
+{% load coretags %}
 
 {% block content %}
     <div id="content-main">
@@ -13,33 +14,36 @@
                         <a class="w-1/3"
                            @mounted="mounted"
                            href="/admin/users/user/"
-                           v-scope="DashboardPanel({ initialCount: 0, url: '/api/users/count/', label: 'Usuarios' })">
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/users/user/?format=json', label: 'Usuarios' })">
                         </a>
                         <a class="w-1/3"
                            @mounted="mounted"
                            href="/admin/organization/member/"
-                           v-scope="DashboardPanel({ initialCount: 0, url: '/api/members/count/', label: 'Miembros' })">
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/organization/member/?format=json', label: 'Miembros' })">
                         </a>
                         <a class="w-1/3"
                            @mounted="mounted"
                            href="/admin/organization/member/?type__exact=partner"
-                           v-scope="DashboardPanel({ initialCount: 0, url: '/api/members/count/?type=partner', label: 'Socios' })">
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/organization/member/?format=json&type__exact=partner', label: 'Socios' })">
                         </a>
                     </div>
                     <h3>🥳 Cumpleaños</h3>
                     <div class="flex flex-auto flex-wrap">
-                        <div class="w-1/3"
-                             @mounted="mounted"
-                             v-scope="DashboardPanel({ initialCount: 0, url: '/api/members/count/?birthday=today', label: 'Hoy' })">
-                        </div>
-                        <div class="w-1/3"
-                             @mounted="mounted"
-                             v-scope="DashboardPanel({ initialCount: 0, url: '/api/members/count/?birthday=week', label: 'Esta semana' })">
-                        </div>
-                        <div class="w-1/3"
-                             @mounted="mounted"
-                             v-scope="DashboardPanel({ initialCount: 0, url: '/api/members/count/?birthday=month', label: 'Este mes' })">
-                        </div>
+                        <a class="w-1/3"
+                           @mounted="mounted"
+                           href='/admin/organization/member/?birthday__gte={% now "Y-m-d" %}&birthday__lt={% tomorrow "%Y-%m-%d" %}'
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/organization/member/?format=json&birthday__gte={% now "Y-m-d" %}&birthday__lt={% tomorrow "%Y-%m-%d" %}', label: 'Hoy' })">
+                        </a>
+                        <a class="w-1/3"
+                           @mounted="mounted"
+                           href='/admin/organization/member/?birthday__gte={% now "Y-m-d" %}&birthday__lt={% daysfromnow 2 "%Y-%m-%d" %}'
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/organization/member/?format=json&birthday__gte={% tomorrow "%Y-%m-%d" %}&birthday__lt={% daysfromnow 2 "%Y-%m-%d" %}', label: 'Mañana' })">
+                        </a>
+                        <a class="w-1/3"
+                           @mounted="mounted"
+                           href='/admin/organization/member/?birthday__gte={% now "Y-m-d" %}&birthday__lt={% daysfromnow 7 "%Y-%m-%d" %}'
+                           v-scope="DashboardPanel({ initialCount: 0, url: '/admin/organization/member/?format=json&birthday__gte={% now "Y-m-d" %}&birthday__lt={% daysfromnow 7 "%Y-%m-%d" %}', label: '7 días' })">
+                        </a>
                     </div>
                 </div>
             {% endif %}

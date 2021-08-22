@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from aseb.core.admin import AdminAuditedModel
+from aseb.core.admin import AdminAuditedModel, APIAdminModel
 
 from .models import Company, Interest, Market, Member
 
@@ -25,7 +25,7 @@ class MarketAdmin(admin.ModelAdmin):
 
 
 @admin.register(Member)
-class MemberAdmin(AdminAuditedModel):
+class MemberAdmin(AdminAuditedModel, APIAdminModel):
     date_hierarchy = "created_at"
     list_display = "__str__", "type", "activated_at", "created_at"
     list_filter = "type", "position", "birthday"

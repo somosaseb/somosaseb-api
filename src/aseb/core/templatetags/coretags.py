@@ -1,3 +1,4 @@
+import datetime
 from pprint import pformat
 from typing import Any
 
@@ -26,3 +27,18 @@ def pprint_tag(value: Any) -> str:
             ]
         )
     )
+
+
+@register.simple_tag
+def tomorrow(exp: str):
+    return (datetime.date.today() + datetime.timedelta(days=1)).strftime(exp)
+
+
+@register.simple_tag
+def nextweek(exp: str):
+    return (datetime.date.today() + datetime.timedelta(days=7)).strftime(exp)
+
+
+@register.simple_tag
+def daysfromnow(days: int, exp: str):
+    return (datetime.date.today() + datetime.timedelta(days=days)).strftime(exp)
