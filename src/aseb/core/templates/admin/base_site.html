@@ -8,14 +8,38 @@
 
 {% block extrahead %}
     <link rel="stylesheet" href="{% static 'admin.css' %}">
-
+    {{ media }}
     {% verbatim %}
+    <style>
+        .dashboard-panel-template > div {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            color: #565656;
+        }
+
+        .dashboard-panel-template h2 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: normal;
+            font-size: 1rem
+        }
+
+        .dashboard-panel-template h2 + div {
+            line-height: 1;
+            font-size: 2rem;
+            font-weight: 600
+        }
+    </style>
     <template id="dashboard-panel-template">
-        <div class="p-2">
-            <div class="rounded" style="padding: 1rem; background-color: #f9f9f9; color: #565656;">
-                <h2 style="margin: 0; text-transform: uppercase; letter-spacing: 1px;  font-weight: normal; font-size: 1rem">
-                    {{ label }}</h2>
-                <div style="line-height: 1; font-size: 2rem; font-weight: 600">{{ count }}</div>
+        <div class="dashboard-panel-template p-2">
+            <div class="rounded" style="">
+                <h2 style="">
+                    {{ label }}
+                </h2>
+                <div style="">
+                    {{ count }}
+                </div>
             </div>
         </div>
     </template>
@@ -29,6 +53,17 @@
                 $template: '#dashboard-panel-template',
                 label: props.label,
                 count: props.initialCount,
+                mounted() {
+                    if (!!props.url) {
+                        django.jQuery.getJSON(props.url)
+                            .then(data => {
+                                this.count = data.count
+                            })
+                            .catch(() => {
+                                this.count = '-'
+                            })
+                    }
+                }
             }
         }
 

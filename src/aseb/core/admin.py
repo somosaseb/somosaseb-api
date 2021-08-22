@@ -1,8 +1,21 @@
 from django.contrib import admin
+from django.forms import forms
 
 
 class AdminSite(admin.AdminSite):
     enable_nav_sidebar = False
+
+    def each_context(self, request):
+        js = [
+            "vendor/jquery/jquery.min.js",
+            "jquery.init.js",
+        ]
+        media = forms.Media(js=["admin/js/%s" % url for url in js])
+
+        return {
+            **super().each_context(request),
+            "media": media,
+        }
 
 
 class AdminAuditedModel(admin.ModelAdmin):

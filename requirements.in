@@ -21,6 +21,7 @@ django-ordered-model
 dj-database-url
 
 djangorestframework
+djangorestframework-filters>=1.0.0.dev2
 djangorestframework-simplejwt
 drf-yasg
 

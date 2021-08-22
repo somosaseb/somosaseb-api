@@ -111,6 +111,8 @@ class Member(ProfileModel):
         blank=True,
         null=True,
     )
+
+    partner_since = models.DateField(blank=True, null=True)
     activated_at = models.DateField(blank=True, null=True)
     expires_at = models.DateField(blank=True, null=True)
 

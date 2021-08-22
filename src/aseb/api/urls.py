@@ -1,17 +1,20 @@
 from django.urls import path
 
+from .members.viewsets import MemberViewSet
 from .router import Router
 from .users.viewsets import (
     CurrentUserViewSet,
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
+    UserViewSet,
 )
 
 router = Router()
 
 router.register("me", CurrentUserViewSet, basename="api-me")
-
+router.register("users", UserViewSet, basename="user")
+router.register("members", MemberViewSet, basename="user")
 
 urlpatterns = [
     *router.urls,

@@ -3,11 +3,23 @@ from django.urls.conf import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
+from rest_framework.routers import Route
 
 
 class Router(routers.DefaultRouter):
     include_root_view = False
     include_format_suffixes = False
+
+    routes = [
+        Route(
+            url=r"^{prefix}/count{trailing_slash}$",
+            mapping={"get": "count"},
+            name="{basename}-count",
+            detail=False,
+            initkwargs={"suffix": "Count"},
+        ),
+        *routers.DefaultRouter.routes,
+    ]
 
     def get_urls(self):
         urlpatterns = super().get_urls()

@@ -1,5 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import viewsets
+from aseb.api import viewsets
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt import views as jwt_views
 
@@ -9,6 +10,7 @@ from .serializers import (
     TokenVerifyResponseSerializer,
     UserSerializer,
 )
+from ...apps.users.models import User
 
 
 class TokenObtainPairView(jwt_views.TokenObtainPairView):
@@ -36,3 +38,11 @@ class CurrentUserViewSet(viewsets.ViewSet):
         return Response(
             UserSerializer(context={"request": request}).to_representation(request.user)
         )
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    model = User
+
+    def get_queryset(self):
+        return User.objects.all()
