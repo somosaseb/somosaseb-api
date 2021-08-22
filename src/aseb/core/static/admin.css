@@ -117,7 +117,8 @@ select {
 .xfull {
     width: 100%;
 }
-
+.module > table > tbody > tr:last-child td,
+.module > table > tbody > tr:last-child th,
 fieldset .form-row:last-child {
     border-bottom: none
 }
