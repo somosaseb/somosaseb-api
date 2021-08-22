@@ -7,38 +7,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('organization', '0001_initial'),
+        ("organization", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='member',
-            name='partner_since',
+            model_name="member",
+            name="partner_since",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='company',
-            name='display_name',
+            model_name="company",
+            name="display_name",
             field=models.CharField(max_length=140),
         ),
         migrations.AlterField(
-            model_name='interest',
-            name='emoji',
+            model_name="interest",
+            name="emoji",
             field=aseb.core.db.fields.EmojiChooseField(max_length=3),
         ),
         migrations.AlterField(
-            model_name='member',
-            name='contact',
+            model_name="member",
+            name="contact",
             field=aseb.core.db.fields.PropertiesField(blank=True, default=dict),
         ),
         migrations.AlterField(
-            model_name='member',
-            name='first_name',
+            model_name="member",
+            name="first_name",
             field=models.CharField(max_length=140),
         ),
         migrations.AlterField(
-            model_name='member',
-            name='last_name',
+            model_name="member",
+            name="last_name",
             field=models.CharField(max_length=140),
         ),
     ]

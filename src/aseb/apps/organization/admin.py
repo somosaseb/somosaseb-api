@@ -28,7 +28,7 @@ class MarketAdmin(admin.ModelAdmin):
 class MemberAdmin(AdminAuditedModel):
     date_hierarchy = "created_at"
     list_display = "__str__", "type", "activated_at", "created_at"
-    list_filter = "type", "position"
+    list_filter = "type", "position", "birthday"
     search_fields = "contact_email", "first_name", "last_name"
     autocomplete_fields = (
         "interests",

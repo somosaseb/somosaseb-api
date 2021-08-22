@@ -7,6 +7,8 @@ from aseb.apps.organization.models import Member
 
 
 class MemberFilter(filters.FilterSet):
+    birthday = filters.DateRangeFilter()
+
     class Meta:
         model = Member
         fields = (

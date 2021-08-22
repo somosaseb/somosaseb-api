@@ -8,8 +8,8 @@
 
 {% block extrahead %}
     <link rel="stylesheet" href="{% static 'admin.css' %}">
-    {{ media }}
-    {% verbatim %}
+    {% if not app_label %}{{ media }}{% endif %}
+
     <style>
         .dashboard-panel-template > div {
             padding: 1rem;
@@ -31,6 +31,8 @@
             font-weight: 600
         }
     </style>
+    {% verbatim %}
+
     <template id="dashboard-panel-template">
         <div class="dashboard-panel-template p-2">
             <div class="rounded" style="">

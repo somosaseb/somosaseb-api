@@ -7,13 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='username',
-            field=models.CharField(blank=True, help_text='Required. 50 characters or fewer. Letters, digits and -/_ only.', max_length=50, validators=[django.core.validators.RegexValidator('^[\\w_\\-.]+\\Z')], verbose_name='username'),
+            model_name="user",
+            name="username",
+            field=models.CharField(
+                blank=True,
+                help_text="Required. 50 characters or fewer. Letters, digits and -/_ only.",
+                max_length=50,
+                validators=[django.core.validators.RegexValidator("^[\\w_\\-.]+\\Z")],
+                verbose_name="username",
+            ),
         ),
     ]
