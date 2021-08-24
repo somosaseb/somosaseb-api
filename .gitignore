@@ -18,8 +18,8 @@ db.sqlite3
 db.sqlite3-journal
 src/*.egg-info/
 
-public/
-!public/robots.txt
+/public/*
+!/public/robots.txt
 
 var/
 out/

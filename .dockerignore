@@ -5,7 +5,7 @@
 /out
 
 /public/*
-!public/robots.txt
+!/public/robots.txt
 
 *.egg-info
 .vscode
