@@ -19,6 +19,7 @@ db.sqlite3-journal
 src/*.egg-info/
 public/
 var/
+out/
 
 # Overrides
 docker-compose.override.yml

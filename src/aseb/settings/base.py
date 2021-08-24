@@ -148,6 +148,7 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "aseb.api.openapi.api_info",
     "SECURITY_DEFINITIONS": {
         "Bearer": {
             "type": "http",

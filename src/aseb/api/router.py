@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.urls.conf import path
 from django.views.generic import TemplateView
-from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
 from rest_framework.routers import Route
+
+from aseb.api.openapi import api_info
 
 
 class Router(routers.DefaultRouter):
@@ -26,10 +27,7 @@ class Router(routers.DefaultRouter):
         urlpatterns = super().get_urls()
 
         schema_view = get_schema_view(
-            openapi.Info(
-                title="ASEB API",
-                default_version="v1",
-            ),
+            info=api_info,
             public=True,
             permission_classes=(
                 permissions.AllowAny if settings.DEBUG else permissions.IsAuthenticated,

@@ -1,17 +1,19 @@
+from django.apps import apps
 from rest_framework import authentication, exceptions
-
-from aseb.apps.users.models import AccessToken
 
 
 class TokenAuthentication(authentication.TokenAuthentication):
     keyword = "Bearer"
-    model = AccessToken
+
+    def get_model(self):
+        return apps.get_model("users.AccessToken")
 
     def authenticate_credentials(self, key):
+        model = self.get_model()
 
         try:
-            token = AccessToken.objects.select_related("user").get(token=key)
-        except AccessToken.DoesNotExist:
+            token = model.objects.select_related("user").get(token=key)
+        except model.DoesNotExist:
             raise exceptions.AuthenticationFailed("Invalid token.")
 
         if not token.is_valid():
