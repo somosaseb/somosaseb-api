@@ -3,8 +3,9 @@
 /.env
 /.git
 /out
-/public/media
-/public/static
+
+/public/*
+!public/robots.txt
 
 *.egg-info
 .vscode
@@ -18,6 +19,3 @@ db.sqlite3-journal
 **/node_modules
 
 src/frontend/dist
-
-public/
-!public/robots.txt
