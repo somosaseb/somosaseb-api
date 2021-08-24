@@ -1,0 +1,26 @@
+<!doctype html> <!-- Important: must specify -->
+<html>
+<head>
+    <meta charset="utf-8"> <!-- Important: rapi-doc uses utf8 charecters -->
+    <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+</head>
+<body>
+<rapi-doc
+        allow-spec-file-load="false"
+        allow-spec-url-load="false"
+        bg-color="#fff"
+        fetch-credentials="omit"
+        heading-text="ASEB"
+        primary-color="#1a4942"
+        show-header="false"
+        spec-url="{% url 'schema' %}"
+        text-color="#333"
+        theme="light">
+    <div slot="nav-logo"
+         style="letter-spacing:1px; font-weight: 600; color: #fff; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">
+        🇧🇴🚀ASEB
+    </div>
+</rapi-doc>
+</body>
+</html>
+

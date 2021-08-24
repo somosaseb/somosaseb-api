@@ -10,7 +10,7 @@ from aseb.core.forms import ContactForm
 
 
 class Interest(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     emoji = EmojiChooseField()
 
     class Meta:
@@ -21,7 +21,7 @@ class Interest(models.Model):
 
 
 class Market(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     sibling = models.ManyToManyField("self", blank=True)
 
     class Meta:
@@ -88,13 +88,38 @@ class Member(ProfileModel):
         ADVISOR = "advisor", "Advisor"
         BOARD_MEMBER = "boardMember", "Board Member"
 
-    login = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    class Visibility(models.TextChoices):
+        PUBLIC = "public", "Public"
+        OPEN = "open", "Open"
+        PRIVATE = "private", "Private"
+
+    login = models.OneToOneField(
+        User,
+        related_name="membership",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
     first_name = models.CharField(max_length=140)
     last_name = models.CharField(max_length=140)
     birthday = models.DateField(blank=True, null=True)
 
     type = models.CharField(max_length=20, choices=Type.choices)
-    position = models.CharField(max_length=20, choices=Position.choices, blank=True, null=True)
+
+    position = models.CharField(
+        max_length=20,
+        choices=Position.choices,
+        blank=True,
+        null=True,
+    )
+
+    visibility = models.CharField(
+        max_length=10,
+        choices=Visibility.choices,
+        default=Visibility.OPEN,
+        blank=True,
+        null=True,
+    )
 
     company = models.ForeignKey(
         Company,

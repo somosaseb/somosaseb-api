@@ -1,10 +1,9 @@
 from django.contrib import admin
-from django.contrib.auth import admin as auth_admin, get_user_model
+from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.models import Group
 
+from aseb.apps.users.models import User
 from aseb.core.admin import APIAdminModel
-
-User = get_user_model()
 
 admin.site.unregister(Group)
 
@@ -12,6 +11,21 @@ admin.site.unregister(Group)
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
     search_fields = ["email", "first_name", "last_name"]
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "password1",
+                    "password2",
+                ),
+            },
+        ),
+    )
     fieldsets = (
         (None, {"fields": ("email", "password", "username")}),
         (
@@ -25,7 +39,7 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
             },
         ),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
-        (None, {"fields": ("secret_key",)}),
+        ("Security", {"fields": ("secret_key", "jwt_jti"), "classes": "collapse"}),
     )
     list_display = (
         "email",
@@ -37,4 +51,4 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
         "date_joined",
     )
     date_hierarchy = "date_joined"
-    readonly_fields = ("secret_key",)
+    readonly_fields = ("secret_key", "jwt_jti")

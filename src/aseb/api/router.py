@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.urls.conf import path
+from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
@@ -35,11 +36,10 @@ class Router(routers.DefaultRouter):
             ),
         )
 
-        swagger_root = schema_view.with_ui("swagger", cache_timeout=0)
         swagger_schema = schema_view.without_ui(cache_timeout=0)
 
         return [
-            path("", swagger_root, name="root-view"),
+            path("", TemplateView.as_view(template_name="api/docs.html"), name="root-view"),
             path("schema.json", swagger_schema, name="schema"),
             *urlpatterns,
         ]

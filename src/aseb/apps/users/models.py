@@ -1,3 +1,4 @@
+import secrets
 import string
 from functools import partial
 
@@ -5,6 +6,7 @@ from django.contrib.auth.models import AbstractUser, UserManager as BaseUserMana
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.utils.timezone import now
 
 from aseb.core.db.utils import UploadToFunction
 
@@ -82,6 +84,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=256, blank=True)
     last_name = models.CharField(max_length=256, blank=True)
     secret_key = models.CharField(max_length=42, default=get_random_secret_key)
+    jwt_jti = models.CharField(max_length=256, blank=True, editable=False)
 
     objects = UserManager()
 
@@ -105,5 +108,50 @@ class User(AbstractUser):
 
             while User.objects.filter(username=self.username).exists():
                 self.username = get_random_username()
+
+        super().save(**kwargs)
+
+
+class AccessToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tokens")
+    token = models.CharField(max_length=255, unique=True)
+    expires = models.DateTimeField(null=True)
+    scope = models.TextField(blank=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.token
+
+    def is_valid(self, scopes=None):
+        return not self.is_expired() and self.allow_scopes(scopes)
+
+    def is_expired(self):
+        if self.expires:
+            return now() >= self.expires
+
+        return False
+
+    def allow_scopes(self, scopes):
+        if not scopes:
+            return True
+        provided_scopes = set(self.scope.split())
+        resource_scopes = set(scopes)
+
+        return resource_scopes.issubset(provided_scopes)
+
+    def revoke(self):
+        self.delete()
+
+    @property
+    def scopes(self):
+        all_scopes = {}  # TODO: Implement scopes?
+        token_scopes = self.scope.split()
+        return {name: desc for name, desc in all_scopes.items() if name in token_scopes}
+
+    def save(self, **kwargs):
+        if not self.id:
+            self.token = secrets.token_urlsafe(60)
 
         super().save(**kwargs)
