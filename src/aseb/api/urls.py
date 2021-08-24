@@ -1,7 +1,7 @@
+from .auth.viewsets import AuthViewSet
 from .members.viewsets import MemberViewSet
 from .router import Router
 from .users.viewsets import CurrentUserViewSet
-from .auth.viewsets import AuthViewSet
 
 router = Router()
 

@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from aseb.api import viewsets
 from aseb.apps.users.models import User
+
 from .serializers import UserSerializer, UserUpdateSerializer
 
 
