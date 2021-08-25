@@ -56,13 +56,14 @@ class UserManager(BaseUserManager):
         )
 
 
-user_avatar_upload = UploadToFunction("avatars/{obj.pk}.{ext}")
+user_avatar_upload = UploadToFunction("avatars/{uuid}.{ext}")
 
 get_random_secret_key = partial(
     get_random_string,
     allowed_chars=string.ascii_lowercase + string.digits + "-_=+",
     length=42,
 )
+
 get_random_username = partial(
     get_random_string,
     allowed_chars="123456789",  # We ignore 0 to avoid usernames that starts with it..

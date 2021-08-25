@@ -6,6 +6,8 @@
 #
 amqp==5.0.6
     # via kombu
+appnope==0.1.2
+    # via ipython
 argon2-cffi==20.1.0
     # via -r requirements.in
 asgiref==3.4.1
@@ -59,6 +61,8 @@ django==3.2.6
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   drf-yasg
+django-cleanup==5.2.0
+    # via -r requirements.in
 django-editorjs-fields==0.2.2
     # via -r requirements.in
 django-environ==0.4.5

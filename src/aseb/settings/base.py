@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django_filters",
     "django_extensions",
     "django_editorjs_fields",
+    "django_cleanup.apps.CleanupConfig",
     "drf_yasg",
     "rest_framework",
     "rest_framework_filters",

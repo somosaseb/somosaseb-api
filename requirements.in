@@ -18,6 +18,7 @@ django-ltree
 django-editorjs-fields
 django-import-export
 django-ordered-model
+django-cleanup
 dj-database-url
 
 djangorestframework

@@ -10,6 +10,10 @@ amqp==5.0.6
     #   kombu
 appdirs==1.4.4
     # via black
+appnope==0.1.2
+    # via
+    #   -r ./requirements.txt
+    #   ipython
 argon2-cffi==20.1.0
     # via -r ./requirements.txt
 asgiref==3.4.1
@@ -102,6 +106,8 @@ django==3.2.6
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   drf-yasg
+django-cleanup==5.2.0
+    # via -r ./requirements.txt
 django-debug-toolbar==3.2.2
     # via -r requirements-develop.in
 django-editorjs-fields==0.2.2
