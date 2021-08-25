@@ -6,6 +6,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.static import serve
 
+handler404 = "aseb.core.views.not_found"
+
 urlpatterns = [
     path("admin/docs/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),

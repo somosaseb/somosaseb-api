@@ -15,8 +15,6 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-AUTH_PASSWORD_VALIDATORS = []
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DEBUG_TOOLBAR_CONFIG = {

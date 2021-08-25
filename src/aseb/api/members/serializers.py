@@ -33,6 +33,43 @@ class MemberSerializer(serializers.ModelSerializer):
             model = Member.interests.through
             fields = ("name",)
 
+    url = serializers.HyperlinkedIdentityField(
+        view_name="member-detail",
+        lookup_field="slug",
+    )
+
+    company = CompanySerializer(read_only=True)
+    type = serializers.ReadOnlyField()
+    position = serializers.ReadOnlyField()
+    interests = MemberInterestSerializer(read_only=True, many=True)
+    markets = MemberMarketSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Member
+        fields = (
+            "url",
+            "title",
+            "main_image",
+            # Profile
+            "display_name",
+            "headline",
+            "presentation",
+            "contact",
+            "interests",
+            "markets",
+            # Member
+            "first_name",
+            "last_name",
+            "type",
+            "position",
+            "company",
+            "partner_since",
+            "activated_at",
+            "expires_at",
+        )
+
+
+class MemberRetrieveSerializer(MemberSerializer):
     class MemberNominatedBySerializer(serializers.ModelSerializer):
         class Meta:
             model = Member
@@ -41,18 +78,18 @@ class MemberSerializer(serializers.ModelSerializer):
     company = CompanySerializer(read_only=True)
     type = serializers.ReadOnlyField()
     position = serializers.ReadOnlyField()
-    interests = MemberInterestSerializer(read_only=True, many=True)
-    markets = MemberMarketSerializer(read_only=True, many=True)
+    interests = MemberSerializer.MemberInterestSerializer(read_only=True, many=True)
+    markets = MemberSerializer.MemberMarketSerializer(read_only=True, many=True)
     nominated_by = MemberNominatedBySerializer(read_only=True, many=True)
 
-    mentor_interests = MemberInterestSerializer(read_only=True, many=True)
-    mentor_presentation = MemberMarketSerializer(read_only=True, many=True)
+    mentor_interests = MemberSerializer.MemberInterestSerializer(read_only=True, many=True)
+    mentor_presentation = MemberSerializer.MemberMarketSerializer(read_only=True, many=True)
 
     class Meta:
         model = Member
         fields = (
-            "title",
             "slug",
+            "title",
             "main_image",
             # Profile
             "display_name",

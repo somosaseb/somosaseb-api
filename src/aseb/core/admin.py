@@ -5,7 +5,8 @@ from django.contrib.admin.views.main import ChangeList
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import forms
 from django.http import HttpRequest, JsonResponse
-from rest_framework.utils.mediatypes import media_type_matches
+
+from aseb.core.utils import request_json_response
 
 
 class AdminSite(admin.AdminSite):
@@ -47,10 +48,7 @@ def is_api_list(request: HttpRequest):
     if request.method != "GET":
         return False
 
-    return request.GET.get("format", "") == "json" or media_type_matches(
-        "application/json",
-        request.content_type,
-    )
+    return request_json_response(request)
 
 
 def serialize_items(

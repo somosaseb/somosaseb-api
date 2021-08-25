@@ -1,12 +1,15 @@
 import rest_framework_filters as filters
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins, parsers, permissions
 
 from aseb.api import viewsets
-from aseb.api.members.serializers import MemberSerializer, MemberUpdateSerializer
+from aseb.api.members.serializers import (
+    MemberRetrieveSerializer,
+    MemberSerializer,
+    MemberUpdateSerializer,
+)
 from aseb.api.mixins import CountModelMixin
 from aseb.apps.organization.models import Member
 
@@ -47,6 +50,7 @@ class MemberViewSet(
     parser_classes = (parsers.MultiPartParser,)
     serializer_class = MemberSerializer
     serializers_classes = {
+        "retrieve": MemberRetrieveSerializer,
         "update": MemberUpdateSerializer,
         "partial_update": MemberUpdateSerializer,
     }
@@ -56,19 +60,14 @@ class MemberViewSet(
     lookup_url_kwarg = "slug"
 
     def get_queryset(self):
-        try:
-            membership = self.request.user.membership
-        except ObjectDoesNotExist:
-            membership = None
+        if self.request.user.is_anonymous:
+            return Member.objects.public()
 
-        if membership and membership.type == Member.Type.PARTNER:
-            # ALlow partners to see other partners
-            return Member.objects.filter(
-                ~Q(visibility=Member.Visibility.PRIVATE),
-                Q(type=Member.Type.PARTNER),
-            )
+        queryset = Member.objects.prefetch_related("interests", "markets")
 
-        return Member.objects.filter(visibility=Member.Visibility.PUBLIC)
+        return queryset.filter(
+            Q(login=self.request.user) | ~Q(visibility=Member.Visibility.PRIVATE)
+        )
 
     def check_object_permissions(self, request, obj):
         if self.action in {"update", "partial_update"}:
