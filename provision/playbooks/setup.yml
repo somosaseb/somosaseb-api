@@ -104,6 +104,7 @@
         state: absent
         name:
           - accountsservice
+          - snapd
 
     - name: Deploy User
       block:
