@@ -40,7 +40,7 @@ class AuthViewSet(viewsets.ViewSet):
                 "token": token.token,
                 "expires": token.expires,
                 "scopes": token.scopes,
-                "user": UserSerializer().to_representation(user),
+                "user": UserSerializer(context={"request": request}).to_representation(user),
             }
         )
 

@@ -31,7 +31,7 @@ class CurrentUserViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        return Response(UserSerializer().to_representation(user))
+        return Response(UserSerializer(context={"request": request}).to_representation(user))
 
     @action(detail=False, methods=["post"])
     def logout(self, request, *args, **kwargs):
