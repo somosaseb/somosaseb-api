@@ -149,8 +149,8 @@
         - name: Vhost
           tags: vhost
           copy:
-            src: files/app.aseb.bo.conf
-            dest: /etc/nginx/sites-available/app.aseb.bo.conf
+            src: files/api.aseb.bo.conf
+            dest: /etc/nginx/sites-available/api.aseb.bo.conf
             mode: 0775
           notify: restart nginx
 
