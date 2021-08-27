@@ -1,11 +1,21 @@
 from typing import Dict, Type
 
-from rest_framework import mixins, serializers, viewsets
+from rest_framework import mixins, serializers, viewsets, generics
+from rest_framework.viewsets import ViewSetMixin
 
 from aseb.api.mixins import CountModelMixin
+from aseb.core.exceptions import ResponseException
 
 
-class GenericViewSet(viewsets.GenericViewSet):
+class GenericAPIView(generics.GenericAPIView):
+    def handle_exception(self, exc):
+        if isinstance(exc, ResponseException):
+            return exc.response
+
+        return super().handle_exception(exc)
+
+
+class GenericViewSet(ViewSetMixin, GenericAPIView):
     serializers_classes: Dict[str, Type[serializers.Serializer]] = {}
 
     def get_serializer_class(self):
