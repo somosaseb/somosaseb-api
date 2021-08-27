@@ -21,7 +21,7 @@ class BaseModel(models.Model):
 
     def update(self, refresh_from_db: bool = True, **kwargs):
         """Shortcut to update the instance using an UPDATE query"""
-        queryset = self._default_manager.filter(pk=self.pk)
+        queryset = type(self).objects.filter(pk=self.pk)
         queryset.update(**kwargs)
 
         if refresh_from_db:

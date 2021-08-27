@@ -151,7 +151,7 @@ class Member(ProfileModel):
     login = models.OneToOneField(
         User,
         related_name="membership",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
@@ -208,10 +208,18 @@ def create_user_memberprofile(sender, instance: User, **kwargs):
     ):
         return
 
-    Member.objects.create(
-        login=instance,
-        first_name=instance.first_name,
-        last_name=instance.last_name,
-        contact={"contact_email": instance.email},
-        type=Member.Type.MEMBER,
-    )
+    member = Member.objects.filter(contact__contact_email=instance.email).first()
+
+    if member:
+        member.update(
+            login=instance,
+            type=Member.Type.MEMBER,
+        )
+    else:
+        Member.objects.create(
+            login=instance,
+            first_name=instance.first_name,
+            last_name=instance.last_name,
+            contact={"contact_email": instance.email},
+            type=Member.Type.MEMBER,
+        )

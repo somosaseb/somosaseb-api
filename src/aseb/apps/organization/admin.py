@@ -70,6 +70,7 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
                     "presentation",
                     "topics",
                     "birthday",
+                    "contact",
                 )
             },
         ),
@@ -91,9 +92,18 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
             {
                 "fields": [
                     "mentor_since",
-                    "mentor_topcis",
+                    "mentor_topics",
                     "mentor_presentation",
                 ]
+            },
+        ),
+        (
+            "User",
+            {
+                "fields": [
+                    "login",
+                ],
+                "classes": ["aside"],
             },
         ),
         (
