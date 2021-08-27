@@ -21,4 +21,9 @@ line_length = 100
 default_section = "THIRDPARTY"
 known_first_party = "aseb"
 src_paths = ["src/aseb", "test"]
-skip = ["migrations", "node_modules", "templates", "venv"]
+skip_glob= [
+    "*/migrations/*",
+    "*/node_modules/*",
+    "*/templates/*",
+    "*/venv/*"
+]
