@@ -139,16 +139,15 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
             "slug",
             "main_image",
             # Profile
+            "first_name",
+            "last_name",
+            "birthday",
             "display_name",
             "headline",
             "presentation",
             "contact",
             "interests",
             "markets",
-            # Member
-            "first_name",
-            "last_name",
-            "birthday",
         )
 
     def to_representation(self, instance):

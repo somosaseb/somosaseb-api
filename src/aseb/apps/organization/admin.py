@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from aseb.core.admin import AdminAuditedModel, APIAdminModel
 
-from .models import Company, Interest, Market, Member
+from .models import Company, Member, Topic
 
 
 @admin.register(Company)
@@ -13,15 +13,9 @@ class CompanyAdmin(AdminAuditedModel):
     autocomplete_fields = "interests", "markets"
 
 
-@admin.register(Interest)
+@admin.register(Topic)
 class InterestAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
-
-
-@admin.register(Market)
-class MarketAdmin(admin.ModelAdmin):
-    search_fields = ("name",)
-    autocomplete_fields = ("sibling",)
+    search_fields = ("name", "emoji", "created_at")
 
 
 @admin.register(Member)
@@ -38,6 +32,33 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
         "nominated_by",
         "mentor_interests",
     )
+    add_fieldsets = [
+        (
+            None,
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "headline",
+                    "presentation",
+                    "interests",
+                    "markets",
+                    "birthday",
+                )
+            },
+        ),
+        (
+            "Membership",
+            {
+                "fields": [
+                    "type",
+                    "nominated_by",
+                    "activated_at",
+                ]
+            },
+        ),
+    ]
+
     fieldsets = [
         (
             None,
@@ -103,3 +124,9 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
             },
         ),
     ]
+
+    def get_fieldsets(self, request, obj=None):
+        if obj:
+            return super().get_fieldsets(request, obj)
+
+        return self.add_fieldsets

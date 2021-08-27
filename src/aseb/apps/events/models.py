@@ -1,6 +1,6 @@
 from django.db import models
 
-from aseb.apps.organization.models import Interest, Market, Member
+from aseb.apps.organization.models import Member, RelatedInterestsField, RelatedMarketsField
 from aseb.core.db.fields import UUIDPrimaryKey
 from aseb.core.db.models.base import AuditedModel, PublishableModel, WebPageModel
 from aseb.core.db.utils import UploadToFunction
@@ -9,7 +9,14 @@ event_image_upload = UploadToFunction("events/{obj.pk}/{filename}.{ext}")
 
 
 class Serie(AuditedModel, WebPageModel):
-    ...
+    headline = models.CharField(max_length=140, blank=True)
+    presentation = models.TextField(blank=True)
+
+    interests = RelatedInterestsField()
+    markets = RelatedMarketsField()
+
+    starts_at = models.DateTimeField(blank=True, null=True)
+    ends_at = models.DateTimeField(blank=True, null=True)
 
 
 class Event(PublishableModel, AuditedModel, WebPageModel):
@@ -26,8 +33,8 @@ class Event(PublishableModel, AuditedModel, WebPageModel):
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
 
-    interests = models.ManyToManyField(Interest, blank=True)
-    markets = models.ManyToManyField(Market, verbose_name="Market's of interest", blank=True)
+    interests = RelatedInterestsField()
+    markets = RelatedMarketsField()
     serie = models.ForeignKey(Serie, on_delete=models.CASCADE, related_name="events")
 
     starts_at = models.DateTimeField(blank=True, null=True)

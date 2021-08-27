@@ -1,18 +1,12 @@
 from django.db import models, transaction
 from django.utils.timezone import now
 
+from aseb.apps.organization.models import RelatedTopicField
 from aseb.core.db.fields import UUIDPrimaryKey
 from aseb.core.db.models.base import AuditedModel, User, WebPageModel
 from aseb.core.db.utils import UploadToFunction
 
 post_image_upload = UploadToFunction("post/{obj.pk}/{filename}.{ext}")
-
-
-class Topic(WebPageModel):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
 
 
 class Post(AuditedModel, WebPageModel):
@@ -22,7 +16,7 @@ class Post(AuditedModel, WebPageModel):
         image = "image", "Image"
 
     id = UUIDPrimaryKey()
-    topic = models.ForeignKey(Topic, on_delete=models.PROTECT, related_name="posts")
+    topics = RelatedTopicField()
     type = models.CharField(max_length=10, choices=Type.choices)
     score = models.IntegerField(default=1)
     votes = models.IntegerField(default=0)

@@ -1,18 +1,12 @@
 from django.contrib import admin
 
-from .models import Post, Topic, Vote
-
-
-@admin.register(Topic)
-class TopicAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ("name",)
+from .models import Post, Vote
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = "title", "topic", "votes", "score", "created_at", "created_by"
-    list_filter = "topic", "created_by"
+    list_display = "title", "votes", "score", "created_at", "created_by"
+    list_filter = "topics", "created_by"
     date_hierarchy = "created_at"
     search_fields = ("title",)
 

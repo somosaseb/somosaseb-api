@@ -12,9 +12,19 @@ from aseb.core.db.models.base import AuditedModel, WebPageModel
 from aseb.core.forms import ContactForm
 
 
-class Interest(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    emoji = EmojiChooseField()
+class TopicQuerySet(models.QuerySet):
+    def get_by_natural_key(self, name: str):
+        return self.get(name__iexact=name)
+
+    def descendants(self, name: str):
+        return self.filter(name__istartswith=name)
+
+
+class Topic(AuditedModel):
+    name = models.CharField(max_length=250, unique=True)
+    emoji = EmojiChooseField(blank=True)
+    sibling = models.ManyToManyField("self", blank=True)
+    objects = TopicQuerySet.as_manager()
 
     class Meta:
         ordering = ("name",)
@@ -23,15 +33,22 @@ class Interest(models.Model):
         return f"{self.emoji} {self.name}"
 
 
-class Market(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    sibling = models.ManyToManyField("self", blank=True)
+RelatedTopicField = partial(
+    models.ManyToManyField,
+    Topic,
+    related_name="+",
+    blank=True,
+)
 
-    class Meta:
-        ordering = ("name",)
+RelatedInterestsField = partial(
+    RelatedTopicField,
+    limit_choices_to={"name__startswith": "Interest /"},
+)
 
-    def __str__(self):
-        return f"{self.name}"
+RelatedMarketsField = partial(
+    RelatedTopicField,
+    limit_choices_to={"name__startswith": "Market /"},
+)
 
 
 get_profile_slug = partial(get_random_string, allowed_chars=string.digits, length=20)
@@ -67,8 +84,8 @@ class ProfileModel(AuditedModel, WebPageModel):
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
     contact = PropertiesField(form_class=ContactForm, blank=True)
-    interests = models.ManyToManyField(Interest, blank=True)
-    markets = models.ManyToManyField(Market, verbose_name="Market's of interest", blank=True)
+    interests = RelatedInterestsField()
+    markets = RelatedMarketsField()
     objects = ProfileQuerySet.as_manager()
 
     class Meta:
@@ -159,7 +176,8 @@ class Member(ProfileModel):
 
     # Mentor Profile
     mentor_since = models.DateTimeField(blank=True, null=True)
-    mentor_interests = models.ManyToManyField(Interest, related_name="+", blank=True)
+    mentor_interests = RelatedInterestsField()
+    mentor_markets = RelatedMarketsField()
     mentor_presentation = models.TextField(blank=True)
 
     def __str__(self):
