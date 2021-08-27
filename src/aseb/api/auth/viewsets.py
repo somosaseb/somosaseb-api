@@ -61,4 +61,4 @@ class AuthViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        return Response(UserSerializer({"request": request}).to_representation(user))
+        return Response(UserSerializer(context={"request": request}).to_representation(user))
