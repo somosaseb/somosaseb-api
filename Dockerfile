@@ -1,17 +1,4 @@
-FROM node:14 as frontend
-
-COPY src/frontend/package.json .
-COPY src/frontend/package-lock.json .
-
-RUN set -eux \
-    && npm ci
-
-COPY src/frontend/ .
-
-RUN set -eux \
-    && NODE_ENV=production npm run build
-
-FROM aseb/core/base:latest
+FROM ghcr.io/somosaseb/somosaseb-api/base:latest
 
 RUN set -eux \
     && mkdir -p /python \
@@ -26,12 +13,11 @@ RUN set -eux \
     && gosu ${APP_USER} pip install -r /requirements.txt
 
 COPY --chown=${APP_USER}:${APP_USER} . /app
-COPY --chown=${APP_USER}:${APP_USER} --from=frontend dist /app/public
 
 ENV PYTHONPATH=/app/src
 
 RUN set -eux \
-    && export DJANGO_SETTINGS_MODULE=aseb.settings.test \
+    && export DJANGO_SETTINGS_MODULE=aseb.settings.testing \
     && gosu ${APP_USER} pip install -e . \
     && gosu ${APP_USER} python src/manage.py collectstatic \
         --noinput -v2 \

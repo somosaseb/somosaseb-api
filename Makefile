@@ -25,8 +25,13 @@ check:
 .PHONY: build
 build:
 	test ! -d /app
-	cd provision/docker/backend && docker build --target=base -t aseb/core/base:latest .
-	cd provision/docker/backend && docker build --target=develop -t aseb/core/develop:latest .
+	cd provision/docker/backend && docker build --target=base -t ghcr.io/somosaseb/somosaseb-api/base:latest .
+	cd provision/docker/backend && docker build --target=develop -t ghcr.io/somosaseb/somosaseb-api/develop:latest .
+	docker build -t ghcr.io/somosaseb/somosaseb-api:latest .
+
+.PHONY: push
+push: build
+	docker push ghcr.io/somosaseb/somosaseb-api:latest
 
 docker-compose.override.yml:
 	echo 'version: "3.7"' >> docker-compose.override.yml
