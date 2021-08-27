@@ -54,8 +54,11 @@ class AuthViewSet(viewsets.ViewSet):
     )
     @action(methods=["post"], detail=False)
     def register(self, request, **kwargs):
-        serializer = RegisterSerializer(data=request.data, context={"request": request})
+        serializer = RegisterSerializer(
+            data=request.data,
+            context={"request": request},
+        )
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        return Response(UserSerializer().to_representation(user))
+        return Response(UserSerializer({"request": request}).to_representation(user))
