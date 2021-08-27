@@ -1,3 +1,4 @@
+import re
 import string
 from functools import partial
 
@@ -21,16 +22,31 @@ class TopicQuerySet(models.QuerySet):
 
 
 class Topic(AuditedModel):
-    name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(max_length=250, db_index=True, unique=True)
     emoji = EmojiChooseField(blank=True)
     sibling = models.ManyToManyField("self", blank=True)
     objects = TopicQuerySet.as_manager()
+
+    split_name = staticmethod(re.compile(r"\s?/\s?", flags=re.IGNORECASE).split)
 
     class Meta:
         ordering = ("name",)
 
     def __str__(self):
-        return f"{self.emoji} {self.name}"
+        return self.shortname
+
+    @property
+    def shortname(self):
+        *bits, name = self.split_name(self.name)
+
+        if self.emoji:
+            return f"{self.emoji} {self.name}"
+
+        return f"{name}"
+
+    @property
+    def fullname(self):
+        return f"{self.name}"
 
 
 RelatedTopicField = partial(

@@ -14,8 +14,9 @@ class CompanyAdmin(AdminAuditedModel):
 
 
 @admin.register(Topic)
-class InterestAdmin(admin.ModelAdmin):
-    search_fields = ("name", "emoji", "created_at")
+class TopicAdmin(admin.ModelAdmin):
+    list_display = ("name", "emoji", "created_at")
+    search_fields = ("name",)
 
 
 @admin.register(Member)
