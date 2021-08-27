@@ -2,6 +2,7 @@ import re
 import string
 from functools import partial
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -28,6 +29,8 @@ class Topic(AuditedModel):
     objects = TopicQuerySet.as_manager()
 
     split_name = staticmethod(re.compile(r"\s?/\s?", flags=re.IGNORECASE).split)
+    is_interest_prefix = staticmethod(re.compile(r"^interest / ", flags=re.IGNORECASE).match)
+    is_market_prefix = staticmethod(re.compile(r"^market / ", flags=re.IGNORECASE).match)
 
     class Meta:
         ordering = ("name",)
@@ -48,22 +51,18 @@ class Topic(AuditedModel):
     def fullname(self):
         return f"{self.name}"
 
+    def full_clean(self, **kwargs):
+        if not any([self.is_interest_prefix(self.name), self.is_market_prefix(self.name)]):
+            raise ValidationError(
+                {"name": "Unknown prefix, allowed prefixes are 'Interest' or 'market'"}
+            )
+
 
 RelatedTopicField = partial(
     models.ManyToManyField,
     Topic,
     related_name="+",
     blank=True,
-)
-
-RelatedInterestsField = partial(
-    RelatedTopicField,
-    limit_choices_to={"name__startswith": "Interest /"},
-)
-
-RelatedMarketsField = partial(
-    RelatedTopicField,
-    limit_choices_to={"name__startswith": "Market /"},
 )
 
 
@@ -100,8 +99,7 @@ class ProfileModel(AuditedModel, WebPageModel):
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
     contact = PropertiesField(form_class=ContactForm, blank=True)
-    interests = RelatedInterestsField()
-    markets = RelatedMarketsField()
+    topics = RelatedTopicField()
     objects = ProfileQuerySet.as_manager()
 
     class Meta:
@@ -192,8 +190,7 @@ class Member(ProfileModel):
 
     # Mentor Profile
     mentor_since = models.DateTimeField(blank=True, null=True)
-    mentor_interests = RelatedInterestsField()
-    mentor_markets = RelatedMarketsField()
+    mentor_topics = RelatedTopicField()
     mentor_presentation = models.TextField(blank=True)
 
     def __str__(self):

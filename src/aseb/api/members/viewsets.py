@@ -65,7 +65,7 @@ class MemberViewSet(
         if self.request.user.is_anonymous:
             return Member.objects.public()
 
-        queryset = Member.objects.prefetch_related("interests", "markets")
+        queryset = Member.objects.prefetch_related("topics")
 
         return queryset.filter(
             Q(login=self.request.user) | ~Q(visibility=Member.Visibility.PRIVATE)

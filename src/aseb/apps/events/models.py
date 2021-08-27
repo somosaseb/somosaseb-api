@@ -1,6 +1,6 @@
 from django.db import models
 
-from aseb.apps.organization.models import Member, RelatedInterestsField, RelatedMarketsField
+from aseb.apps.organization.models import Member, RelatedTopicField
 from aseb.core.db.fields import UUIDPrimaryKey
 from aseb.core.db.models.base import AuditedModel, PublishableModel, WebPageModel
 from aseb.core.db.utils import UploadToFunction
@@ -12,8 +12,7 @@ class Serie(AuditedModel, WebPageModel):
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
 
-    interests = RelatedInterestsField()
-    markets = RelatedMarketsField()
+    topics = RelatedTopicField()
 
     starts_at = models.DateTimeField(blank=True, null=True)
     ends_at = models.DateTimeField(blank=True, null=True)
@@ -33,8 +32,7 @@ class Event(PublishableModel, AuditedModel, WebPageModel):
     headline = models.CharField(max_length=140, blank=True)
     presentation = models.TextField(blank=True)
 
-    interests = RelatedInterestsField()
-    markets = RelatedMarketsField()
+    topics = RelatedTopicField()
     serie = models.ForeignKey(Serie, on_delete=models.CASCADE, related_name="events")
 
     starts_at = models.DateTimeField(blank=True, null=True)

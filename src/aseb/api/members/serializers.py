@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from aseb.apps.organization.models import Company, Member
+from aseb.apps.organization.models import Company, Member, Topic
+from aseb.core.forms import ContactForm
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -18,19 +19,11 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    class MemberInterestSerializer(serializers.ModelSerializer):
-        name = serializers.CharField(source="interest__name")
-        emoji = serializers.CharField(source="interest__emoji")
+    class MemberTopicSerializer(serializers.ModelSerializer):
+        name = serializers.CharField()
 
         class Meta:
-            model = Member.interests.through
-            fields = ("name", "emoji")
-
-    class MemberMarketSerializer(serializers.ModelSerializer):
-        name = serializers.CharField(source="market__name")
-
-        class Meta:
-            model = Member.markets.through
+            model = Member.topics.through
             fields = ("name",)
 
     url = serializers.HyperlinkedIdentityField(
@@ -41,8 +34,7 @@ class MemberSerializer(serializers.ModelSerializer):
     company = CompanySerializer(read_only=True)
     type = serializers.ReadOnlyField()
     position = serializers.ReadOnlyField()
-    interests = MemberInterestSerializer(read_only=True, many=True)
-    markets = MemberMarketSerializer(read_only=True, many=True)
+    topics = MemberTopicSerializer(read_only=True, many=True)
 
     class Meta:
         model = Member
@@ -55,8 +47,7 @@ class MemberSerializer(serializers.ModelSerializer):
             "headline",
             "presentation",
             "contact",
-            "interests",
-            "markets",
+            "topics",
             # Member
             "first_name",
             "last_name",
@@ -78,12 +69,10 @@ class MemberRetrieveSerializer(MemberSerializer):
     company = CompanySerializer(read_only=True)
     type = serializers.ReadOnlyField()
     position = serializers.ReadOnlyField()
-    interests = MemberSerializer.MemberInterestSerializer(read_only=True, many=True)
-    markets = MemberSerializer.MemberMarketSerializer(read_only=True, many=True)
+    topics = MemberSerializer.MemberTopicSerializer(read_only=True, many=True)
     nominated_by = MemberNominatedBySerializer(read_only=True, many=True)
 
-    mentor_interests = MemberSerializer.MemberInterestSerializer(read_only=True, many=True)
-    mentor_presentation = MemberSerializer.MemberMarketSerializer(read_only=True, many=True)
+    mentor_topics = MemberSerializer.MemberTopicSerializer(read_only=True, many=True)
 
     class Meta:
         model = Member
@@ -96,8 +85,7 @@ class MemberRetrieveSerializer(MemberSerializer):
             "headline",
             "presentation",
             "contact",
-            "interests",
-            "markets",
+            "topics",
             # Member
             "first_name",
             "last_name",
@@ -109,29 +97,31 @@ class MemberRetrieveSerializer(MemberSerializer):
             "activated_at",
             "expires_at",
             "mentor_since",
-            "mentor_interests",
+            "mentor_topics",
             "mentor_presentation",
         )
 
 
+def validate_contact_form(value):
+    form = ContactForm(data=value, model_instance=None)
+
+    if form.is_valid():
+        return form.cleaned_data
+
+    raise serializers.ValidationError(form.errors)
+
+
 class MemberUpdateSerializer(serializers.ModelSerializer):
-    class MemberUpdateInterestSerializer(serializers.ModelSerializer):
-        name = serializers.CharField(source="interest__name")
-        emoji = serializers.CharField(source="interest__emoji")
+    class MemberUpdateTopicSerializer(serializers.ModelSerializer):
+        name = serializers.CharField(source="topic__name")
+        emoji = serializers.CharField(source="topic__emoji")
 
         class Meta:
-            model = Member.interests.through
+            model = Member.topics.through
             fields = ("name", "emoji")
 
-    class MemberUpdateMarketSerializer(serializers.ModelSerializer):
-        name = serializers.CharField(source="market__name")
-
-        class Meta:
-            model = Member.interests.through
-            fields = ("name",)
-
-    interests = MemberUpdateInterestSerializer(read_only=True, many=True)
-    markets = MemberUpdateMarketSerializer(read_only=True, many=True)
+    contact = serializers.DictField(validators=[validate_contact_form])
+    topics = MemberUpdateTopicSerializer(many=True)
 
     class Meta:
         model = Member
@@ -145,8 +135,8 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
             "birthday",
             "headline",
             "presentation",
-            "interests",
-            "markets",
+            "topics",
+            "contact",
         )
 
     def to_representation(self, instance):
@@ -155,7 +145,17 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
         ).to_representation(instance)
 
     def update(self, instance, validated_data):
+        topics = validated_data.pop("topics", None)
+
+        if self.partial and "contact" in validated_data:
+            validated_data["contact"] = {**validated_data["contact"], **instance.contact}
+
         instance: Member = super().update(instance, validated_data)
+
+        if not (topics is None):
+            topics = [topic["topic__name"] for topic in topics]
+            topics = Topic.objects.filter(name__in=topics)
+            instance.topics.set(topics, clear=True)
 
         if instance.login_id:
             # Sync user

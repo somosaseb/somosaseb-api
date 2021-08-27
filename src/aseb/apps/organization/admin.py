@@ -9,8 +9,8 @@ from .models import Company, Member, Topic
 class CompanyAdmin(AdminAuditedModel):
     search_fields = "slug", "display_name"
     list_display = "__str__", "size", "created_at"
-    list_filter = ("markets",)
-    autocomplete_fields = "interests", "markets"
+    list_filter = ("topics",)
+    autocomplete_fields = ("topics",)
 
 
 @admin.register(Topic)
@@ -26,12 +26,11 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
     list_filter = "type", "position", "birthday"
     search_fields = "contact_email", "first_name", "last_name"
     autocomplete_fields = (
-        "interests",
-        "markets",
+        "topics",
         "login",
         "company",
         "nominated_by",
-        "mentor_interests",
+        "mentor_topics",
     )
     add_fieldsets = [
         (
@@ -42,8 +41,7 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
                     "last_name",
                     "headline",
                     "presentation",
-                    "interests",
-                    "markets",
+                    "topics",
                     "birthday",
                 )
             },
@@ -70,8 +68,7 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
                     "display_name",
                     "headline",
                     "presentation",
-                    "interests",
-                    "markets",
+                    "topics",
                     "birthday",
                 )
             },
@@ -94,7 +91,7 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
             {
                 "fields": [
                     "mentor_since",
-                    "mentor_interests",
+                    "mentor_topcis",
                     "mentor_presentation",
                 ]
             },

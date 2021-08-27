@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import Optional, TypeVar
 
 from django import forms
 
@@ -8,7 +8,7 @@ ModelT = TypeVar("ModelT", bound=BaseModel)
 
 
 class PropertyForm(forms.Form):
-    def __init__(self, *args, model_instance: ModelT, **kwargs):
+    def __init__(self, *args, model_instance: Optional[ModelT], **kwargs):
         self.model_instance = model_instance
         super().__init__(*args, **kwargs)
 
