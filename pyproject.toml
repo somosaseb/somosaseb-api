@@ -1,16 +1,18 @@
 [tool.black]
 line-length = 100
-target-version = ['py39']
-exclude = '''
+target-version = ["py39"]
+exclude = """
 /(
-    \.git
+  \\.git
+  \\.cache
+  |__pycache__
   | venv
   | node_modules
   | migrations
   | templates
   } static
 )/
-'''
+"""
 
 [tool.isort]
 profile = "black"
