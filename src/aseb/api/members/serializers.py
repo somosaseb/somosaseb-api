@@ -141,14 +141,26 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
             # Profile
             "first_name",
             "last_name",
-            "birthday",
             "display_name",
+            "birthday",
             "headline",
             "presentation",
-            "contact",
             "interests",
             "markets",
         )
 
     def to_representation(self, instance):
-        return MemberSerializer().to_representation(instance)
+        return MemberSerializer(
+            context={"request": self.context["request"]},
+        ).to_representation(instance)
+
+    def update(self, instance, validated_data):
+        instance: Member = super().update(instance, validated_data)
+
+        if instance.login_id:
+            # Sync user
+            instance.login.first_name = instance.first_name
+            instance.login.last_name = instance.last_name
+            instance.login.save(update_fields=["first_name", "last_name"])
+
+        return instance

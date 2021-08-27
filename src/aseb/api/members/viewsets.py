@@ -1,5 +1,6 @@
 import rest_framework_filters as filters
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins, parsers, permissions
@@ -12,6 +13,7 @@ from aseb.api.members.serializers import (
 )
 from aseb.api.mixins import CountModelMixin
 from aseb.apps.organization.models import Member
+from aseb.core.exceptions import ResponseException
 
 
 class MemberFilter(filters.FilterSet):
@@ -47,7 +49,7 @@ class MemberViewSet(
     viewsets.GenericViewSet,
 ):
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = (parsers.MultiPartParser,)
+    parser_classes = (parsers.MultiPartParser, parsers.JSONParser)
     serializer_class = MemberSerializer
     serializers_classes = {
         "retrieve": MemberRetrieveSerializer,
@@ -74,3 +76,10 @@ class MemberViewSet(
             return obj.login == request.user
 
         return super().check_object_permissions(request, obj)
+
+    def perform_update(self, serializer):
+        obj = serializer.save()
+
+        if obj.slug != self.kwargs["slug"]:
+            # Redirect to the new member url
+            raise ResponseException(redirect("member-detail", obj.slug))
