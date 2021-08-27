@@ -30,7 +30,7 @@ class MemberSerializer(serializers.ModelSerializer):
         name = serializers.CharField(source="market__name")
 
         class Meta:
-            model = Member.interests.through
+            model = Member.markets.through
             fields = ("name",)
 
     url = serializers.HyperlinkedIdentityField(
