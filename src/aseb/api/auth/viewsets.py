@@ -32,7 +32,7 @@ class AuthViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
 
         user: User = serializer.validated_data["user"]
-        user.tokens.all().delete()  # TODO: By smart about rotating tokens on every login
+        user.tokens.all().delete()  # TODO: Be smart about rotating tokens on every login
         token = user.tokens.create(user=user)
 
         return Response(
