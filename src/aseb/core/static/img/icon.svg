@@ -1,0 +1,29 @@
+<svg viewBox="0 0 400 400" version="1.1" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>
+		ASEB Logo
+	</title>
+	<g id="Red-Ribbon" transform="translate(135.319022, 1.804026)">
+		<polygon id="Rectangle" fill="#E84643" points="69.43 45 215.590605 45 262 134 0 134">
+		</polygon>
+		<polygon id="Rectangle" fill="#E52925" points="1 0 69.43 45 1 134">
+		</polygon>
+	</g>
+	<g id="Green-Ribbon" transform="translate(2.319022, 263.804026)">
+		<polygon id="Rectangle" fill="#26915A" transform="translate(131.000000, 44.500000) rotate(-180.000000) translate(-131.000000, -44.500000) " points="69.43 0 215.590605 1.3895135e-13 262 89 0 89">
+		</polygon>
+		<polygon id="Rectangle" fill="#18864E" transform="translate(227.285000, 67.000000) rotate(-180.000000) translate(-227.285000, -67.000000) " points="192.57 0 262 45 192.57 134">
+		</polygon>
+	</g>
+	<g id="Yellow-Ribbon-Right" transform="translate(263.819022, 134.886526)">
+		<polygon id="Rectangle" fill="#FFCF47" transform="translate(44.500000, 131.417500) rotate(-270.000000) translate(-44.500000, -131.417500) " points="-16.835 87.4175 128.76774 87.4175 175 175.4175 -86 175.4175">
+		</polygon>
+		<polygon id="Rectangle" fill="#FEC82E" transform="translate(67.000000, 35.500000) rotate(-270.000000) translate(-67.000000, -35.500000) " points="32.4175 -31 101.5825 14 32.4175 102">
+		</polygon>
+	</g>
+	<g id="Yellow-Ribbon-Left" transform="translate(1.819022, 1.304026)">
+		<polygon id="Rectangle" fill="#FFCF47" transform="translate(90.000000, 131.500000) rotate(-450.000000) translate(-90.000000, -131.500000) " points="28.43 87 174.590605 87 221 176 -41 176">
+		</polygon>
+		<polygon id="Rectangle" fill="#FEC82E" transform="translate(67.500000, 227.594157) rotate(-450.000000) translate(-67.500000, -227.594157) " points="32.5941568 160.594157 102.405843 205.594157 32.5941568 294.594157">
+		</polygon>
+	</g>
+</svg>
