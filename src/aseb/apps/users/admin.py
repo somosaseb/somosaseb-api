@@ -17,6 +17,8 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
         fk_name = "login"
         fields = ("type", "birthday", "visibility")
         can_delete = False
+        extra = 0
+        max_num = 1
 
     inlines = [MembershipInline]
     search_fields = ["email", "first_name", "last_name"]
@@ -61,3 +63,9 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
     )
     date_hierarchy = "date_joined"
     readonly_fields = ("secret_key", "jwt_jti")
+
+    def get_inlines(self, request, obj):
+        if not obj:
+            return []
+
+        return super().get_inlines(request, obj)

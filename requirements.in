@@ -3,6 +3,7 @@ docutils
 pytz
 Pillow
 psycopg2-binary
+boto3
 
 pydash
 trafaret
@@ -19,6 +20,7 @@ django-editorjs-fields
 django-import-export
 django-ordered-model
 django-cleanup
+django-storages
 dj-database-url
 
 djangorestframework

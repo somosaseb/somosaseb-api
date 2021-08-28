@@ -159,6 +159,13 @@ SWAGGER_SETTINGS = {
     },
 }
 
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = "media.aseb.bo"
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_REGION_NAME = "us-east-1"
+AWS_DEFAULT_ACL = "public-read"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
