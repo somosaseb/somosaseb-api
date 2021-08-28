@@ -43,7 +43,7 @@ class PropertiesField(models.JSONField):
         values = value if self.many else [value]
 
         for n, item in enumerate(values):
-            form = self.form_class(data=value)
+            form = self.form_class(data=value, model_instance=model_instance)
 
             if not form.is_valid():
                 raise ValidationError(

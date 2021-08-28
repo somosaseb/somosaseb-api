@@ -138,3 +138,9 @@ class MemberAdmin(AdminAuditedModel, APIAdminModel):
             return super().get_fieldsets(request, obj)
 
         return self.add_fieldsets
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.title = f"{obj.first_name} {obj.last_name}"
+
+        super().save_model(request, obj, form, change)
