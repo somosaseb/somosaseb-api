@@ -1,6 +1,7 @@
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
+
 from .base import *  # noqa
 
 DEBUG = False
