@@ -25,6 +25,7 @@ djangorestframework
 djangorestframework-filters>=1.0.0.dev2
 djangorestframework-simplejwt
 drf-yasg
+sentry-sdk
 
 argon2-cffi
 python-json-logger

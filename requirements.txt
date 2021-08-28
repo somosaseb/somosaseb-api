@@ -6,6 +6,8 @@
 #
 amqp==5.0.6
     # via kombu
+appnope==0.1.2
+    # via ipython
 argon2-cffi==20.1.0
     # via -r requirements.in
 asgiref==3.4.1
@@ -17,7 +19,9 @@ billiard==3.6.4.0
 celery==5.1.2
     # via -r requirements.in
 certifi==2021.5.30
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
 cffi==1.14.6
     # via argon2-cffi
 charset-normalizer==2.0.4
@@ -176,6 +180,8 @@ ruamel.yaml==0.17.10
     # via drf-yasg
 ruamel.yaml.clib==0.2.6
     # via ruamel.yaml
+sentry-sdk==1.3.1
+    # via -r requirements.in
 six==1.16.0
     # via
     #   argon2-cffi
@@ -198,7 +204,9 @@ uritemplate==3.0.1
     #   coreapi
     #   drf-yasg
 urllib3==1.26.6
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
 uwsgi==2.0.19.1
     # via -r requirements.in
 vine==5.0.0
