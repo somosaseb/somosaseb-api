@@ -6,6 +6,10 @@
 #
 amqp==5.0.6
     # via kombu
+ansible==4.4.0
+    # via -r requirements.in
+ansible-core==2.11.4
+    # via ansible
 appnope==0.1.2
     # via ipython
 argon2-cffi==20.1.0
@@ -21,7 +25,9 @@ celery==5.1.2
 certifi==2021.5.30
     # via requests
 cffi==1.14.6
-    # via argon2-cffi
+    # via
+    #   argon2-cffi
+    #   cryptography
 charset-normalizer==2.0.4
     # via requests
 click==7.1.2
@@ -43,6 +49,8 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
+cryptography==3.4.8
+    # via ansible-core
 decorator==5.0.9
     # via ipython
 defusedxml==0.7.1
@@ -112,7 +120,9 @@ itypes==1.2.0
 jedi==0.18.0
     # via ipython
 jinja2==3.0.1
-    # via coreschema
+    # via
+    #   ansible-core
+    #   coreschema
 kombu==5.1.0
     # via celery
 markuppy==1.14
@@ -128,7 +138,9 @@ odfpy==1.4.1
 openpyxl==3.0.7
     # via tablib
 packaging==21.0
-    # via drf-yasg
+    # via
+    #   ansible-core
+    #   drf-yasg
 parso==0.8.2
     # via jedi
 pep517==0.11.0
@@ -167,13 +179,17 @@ pytz==2021.1
     #   celery
     #   django
 pyyaml==5.4.1
-    # via tablib
+    # via
+    #   ansible-core
+    #   tablib
 redis==3.5.3
     # via -r requirements.in
 requests==2.26.0
     # via
     #   -r requirements.in
     #   coreapi
+resolvelib==0.5.4
+    # via ansible-core
 ruamel.yaml==0.17.10
     # via drf-yasg
 ruamel.yaml.clib==0.2.6
