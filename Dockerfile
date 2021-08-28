@@ -26,7 +26,7 @@ RUN set -eux \
         --ignore "*.scss" \
         --ignore "*.less"
 
-ENV DJANGO_SETTINGS_MODULE=core.settings.production
+ENV DJANGO_SETTINGS_MODULE=aseb.settings.production
 
 EXPOSE 8000
 

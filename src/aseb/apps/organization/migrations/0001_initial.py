@@ -19,94 +19,334 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(default=django.db.models.functions.datetime.Now, editable=False)),
-                ('modified_at', models.DateTimeField(auto_now=True)),
-                ('removed_at', models.DateTimeField(blank=True, editable=False, null=True)),
-                ('title', models.CharField(max_length=100)),
-                ('slug', models.SlugField(unique=True)),
-                ('seo_title', models.CharField(blank=True, max_length=70)),
-                ('seo_description', models.CharField(blank=True, max_length=300)),
-                ('main_image', models.ImageField(blank=True, null=True, upload_to=aseb.core.db.utils.UploadToFunction('{model_name}/{obj.pk}/{filename}.{ext}'))),
-                ('content', django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
-                ('visibility', models.CharField(blank=True, choices=[('public', 'Public'), ('open', 'Open'), ('private', 'Private')], default='open', max_length=10, null=True)),
-                ('headline', models.CharField(blank=True, max_length=140)),
-                ('presentation', models.TextField(blank=True)),
-                ('contact', aseb.core.db.fields.PropertiesField(blank=True, default=dict)),
-                ('display_name', models.CharField(max_length=140)),
-                ('size', models.IntegerField(blank=True, choices=[(1, '1 - 4 employees'), (2, '5 - 9 employees'), (3, '10 - 19 employees'), (4, '20 - 49 employees'), (5, '50 - 99 employees'), (6, '100 - 249 employees'), (7, '250 - 499 employees'), (8, '500 - 999 employees'), (9, '1,000+ employees')], null=True)),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('removed_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.db.models.functions.datetime.Now, editable=False
+                    ),
+                ),
+                ("modified_at", models.DateTimeField(auto_now=True)),
+                ("removed_at", models.DateTimeField(blank=True, editable=False, null=True)),
+                ("title", models.CharField(max_length=100)),
+                ("slug", models.SlugField(unique=True)),
+                ("seo_title", models.CharField(blank=True, max_length=70)),
+                ("seo_description", models.CharField(blank=True, max_length=300)),
+                (
+                    "main_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=aseb.core.db.utils.UploadToFunction(
+                            "{model_name}/{obj.pk}/{filename}.{ext}"
+                        ),
+                    ),
+                ),
+                ("content", django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
+                (
+                    "visibility",
+                    models.CharField(
+                        blank=True,
+                        choices=[("public", "Public"), ("open", "Open"), ("private", "Private")],
+                        default="open",
+                        max_length=10,
+                        null=True,
+                    ),
+                ),
+                ("headline", models.CharField(blank=True, max_length=140)),
+                ("presentation", models.TextField(blank=True)),
+                ("contact", aseb.core.db.fields.PropertiesField(blank=True, default=dict)),
+                ("display_name", models.CharField(max_length=140)),
+                (
+                    "size",
+                    models.IntegerField(
+                        blank=True,
+                        choices=[
+                            (1, "1 - 4 employees"),
+                            (2, "5 - 9 employees"),
+                            (3, "10 - 19 employees"),
+                            (4, "20 - 49 employees"),
+                            (5, "50 - 99 employees"),
+                            (6, "100 - 249 employees"),
+                            (7, "250 - 499 employees"),
+                            (8, "500 - 999 employees"),
+                            (9, "1,000+ employees"),
+                        ],
+                        null=True,
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "removed_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'companies',
+                "verbose_name_plural": "companies",
             },
         ),
         migrations.CreateModel(
-            name='Topic',
+            name="Topic",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(default=django.db.models.functions.datetime.Now, editable=False)),
-                ('modified_at', models.DateTimeField(auto_now=True)),
-                ('removed_at', models.DateTimeField(blank=True, editable=False, null=True)),
-                ('name', models.CharField(db_index=True, max_length=250, unique=True)),
-                ('emoji', aseb.core.db.fields.EmojiChooseField(blank=True, max_length=3)),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('removed_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('sibling', models.ManyToManyField(blank=True, related_name='_organization_topic_sibling_+', to='organization.Topic')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.db.models.functions.datetime.Now, editable=False
+                    ),
+                ),
+                ("modified_at", models.DateTimeField(auto_now=True)),
+                ("removed_at", models.DateTimeField(blank=True, editable=False, null=True)),
+                ("name", models.CharField(db_index=True, max_length=250, unique=True)),
+                ("emoji", aseb.core.db.fields.EmojiChooseField(blank=True, max_length=3)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "removed_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "sibling",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="_organization_topic_sibling_+",
+                        to="organization.Topic",
+                    ),
+                ),
             ],
             options={
-                'ordering': ('name',),
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='Member',
+            name="Member",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(default=django.db.models.functions.datetime.Now, editable=False)),
-                ('modified_at', models.DateTimeField(auto_now=True)),
-                ('removed_at', models.DateTimeField(blank=True, editable=False, null=True)),
-                ('title', models.CharField(max_length=100)),
-                ('slug', models.SlugField(unique=True)),
-                ('seo_title', models.CharField(blank=True, max_length=70)),
-                ('seo_description', models.CharField(blank=True, max_length=300)),
-                ('main_image', models.ImageField(blank=True, null=True, upload_to=aseb.core.db.utils.UploadToFunction('{model_name}/{obj.pk}/{filename}.{ext}'))),
-                ('content', django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
-                ('display_name', models.CharField(blank=True, max_length=140)),
-                ('visibility', models.CharField(blank=True, choices=[('public', 'Public'), ('open', 'Open'), ('private', 'Private')], default='open', max_length=10, null=True)),
-                ('headline', models.CharField(blank=True, max_length=140)),
-                ('presentation', models.TextField(blank=True)),
-                ('contact', aseb.core.db.fields.PropertiesField(blank=True, default=dict)),
-                ('first_name', models.CharField(max_length=140)),
-                ('last_name', models.CharField(max_length=140)),
-                ('birthday', models.DateField(blank=True, null=True)),
-                ('type', models.CharField(choices=[('member', 'Member'), ('partner', 'Partner')], max_length=20)),
-                ('position', models.CharField(blank=True, choices=[('president', 'President'), ('advisor', 'Advisor'), ('boardMember', 'Board Member')], max_length=20, null=True)),
-                ('partner_since', models.DateField(blank=True, null=True)),
-                ('activated_at', models.DateField(blank=True, null=True)),
-                ('expires_at', models.DateField(blank=True, null=True)),
-                ('mentor_since', models.DateTimeField(blank=True, null=True)),
-                ('mentor_presentation', models.TextField(blank=True)),
-                ('company', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='members', to='organization.company')),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('login', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='membership', to=settings.AUTH_USER_MODEL)),
-                ('mentor_topics', models.ManyToManyField(blank=True, related_name='_organization_member_mentor_topics_+', to='organization.Topic')),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('nominated_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='nominated_members', to='organization.member')),
-                ('removed_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('topics', models.ManyToManyField(blank=True, related_name='_organization_member_topics_+', to='organization.Topic')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.db.models.functions.datetime.Now, editable=False
+                    ),
+                ),
+                ("modified_at", models.DateTimeField(auto_now=True)),
+                ("removed_at", models.DateTimeField(blank=True, editable=False, null=True)),
+                ("title", models.CharField(max_length=100)),
+                ("slug", models.SlugField(unique=True)),
+                ("seo_title", models.CharField(blank=True, max_length=70)),
+                ("seo_description", models.CharField(blank=True, max_length=300)),
+                (
+                    "main_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=aseb.core.db.utils.UploadToFunction(
+                            "{model_name}/{obj.pk}/{filename}.{ext}"
+                        ),
+                    ),
+                ),
+                ("content", django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
+                ("display_name", models.CharField(blank=True, max_length=140)),
+                (
+                    "visibility",
+                    models.CharField(
+                        blank=True,
+                        choices=[("public", "Public"), ("open", "Open"), ("private", "Private")],
+                        default="open",
+                        max_length=10,
+                        null=True,
+                    ),
+                ),
+                ("headline", models.CharField(blank=True, max_length=140)),
+                ("presentation", models.TextField(blank=True)),
+                ("contact", aseb.core.db.fields.PropertiesField(blank=True, default=dict)),
+                ("first_name", models.CharField(max_length=140)),
+                ("last_name", models.CharField(max_length=140)),
+                ("birthday", models.DateField(blank=True, null=True)),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[("member", "Member"), ("partner", "Partner")], max_length=20
+                    ),
+                ),
+                (
+                    "position",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("president", "President"),
+                            ("advisor", "Advisor"),
+                            ("boardMember", "Board Member"),
+                        ],
+                        max_length=20,
+                        null=True,
+                    ),
+                ),
+                ("partner_since", models.DateField(blank=True, null=True)),
+                ("activated_at", models.DateField(blank=True, null=True)),
+                ("expires_at", models.DateField(blank=True, null=True)),
+                ("mentor_since", models.DateTimeField(blank=True, null=True)),
+                ("mentor_presentation", models.TextField(blank=True)),
+                (
+                    "company",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="members",
+                        to="organization.company",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "login",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="membership",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "mentor_topics",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="_organization_member_mentor_topics_+",
+                        to="organization.Topic",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "nominated_by",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="nominated_members",
+                        to="organization.member",
+                    ),
+                ),
+                (
+                    "removed_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "topics",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="_organization_member_topics_+",
+                        to="organization.Topic",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.AddField(
-            model_name='company',
-            name='topics',
-            field=models.ManyToManyField(blank=True, related_name='_organization_company_topics_+', to='organization.Topic'),
+            model_name="company",
+            name="topics",
+            field=models.ManyToManyField(
+                blank=True, related_name="_organization_company_topics_+", to="organization.Topic"
+            ),
         ),
     ]

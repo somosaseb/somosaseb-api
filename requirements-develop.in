@@ -15,3 +15,5 @@ Werkzeug
 ipdb
 
 django-debug-toolbar
+
+ansible

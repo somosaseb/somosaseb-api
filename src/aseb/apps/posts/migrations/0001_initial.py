@@ -14,44 +14,123 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('organization', '0001_initial'),
+        ("organization", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('created_at', models.DateTimeField(default=django.db.models.functions.datetime.Now, editable=False)),
-                ('modified_at', models.DateTimeField(auto_now=True)),
-                ('removed_at', models.DateTimeField(blank=True, editable=False, null=True)),
-                ('title', models.CharField(max_length=100)),
-                ('slug', models.SlugField(unique=True)),
-                ('seo_title', models.CharField(blank=True, max_length=70)),
-                ('seo_description', models.CharField(blank=True, max_length=300)),
-                ('main_image', models.ImageField(blank=True, null=True, upload_to=aseb.core.db.utils.UploadToFunction('{model_name}/{obj.pk}/{filename}.{ext}'))),
-                ('content', django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
-                ('id', aseb.core.db.fields.UUIDField(editable=False, primary_key=True, serialize=False)),
-                ('type', models.CharField(choices=[('text', 'Text'), ('link', 'Link'), ('image', 'Image')], max_length=10)),
-                ('score', models.IntegerField(default=1)),
-                ('votes', models.IntegerField(default=0)),
-                ('created_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('removed_by', models.ForeignKey(blank=True, editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('topics', models.ManyToManyField(blank=True, related_name='_posts_post_topics_+', to='organization.Topic')),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        default=django.db.models.functions.datetime.Now, editable=False
+                    ),
+                ),
+                ("modified_at", models.DateTimeField(auto_now=True)),
+                ("removed_at", models.DateTimeField(blank=True, editable=False, null=True)),
+                ("title", models.CharField(max_length=100)),
+                ("slug", models.SlugField(unique=True)),
+                ("seo_title", models.CharField(blank=True, max_length=70)),
+                ("seo_description", models.CharField(blank=True, max_length=300)),
+                (
+                    "main_image",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=aseb.core.db.utils.UploadToFunction(
+                            "{model_name}/{obj.pk}/{filename}.{ext}"
+                        ),
+                    ),
+                ),
+                ("content", django_editorjs_fields.fields.EditorJsJSONField(blank=True, null=True)),
+                (
+                    "id",
+                    aseb.core.db.fields.UUIDField(
+                        editable=False, primary_key=True, serialize=False
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[("text", "Text"), ("link", "Link"), ("image", "Image")],
+                        max_length=10,
+                    ),
+                ),
+                ("score", models.IntegerField(default=1)),
+                ("votes", models.IntegerField(default=0)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "removed_by",
+                    models.ForeignKey(
+                        blank=True,
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "topics",
+                    models.ManyToManyField(
+                        blank=True, related_name="_posts_post_topics_+", to="organization.Topic"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
-                'default_permissions': ('view', 'add', 'change', 'delete', 'remove'),
+                "abstract": False,
+                "default_permissions": ("view", "add", "change", "delete", "remove"),
             },
         ),
         migrations.CreateModel(
-            name='Vote',
+            name="Vote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_votes', to='posts.post')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post_votes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "post",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="user_votes",
+                        to="posts.post",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="post_votes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

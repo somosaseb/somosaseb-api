@@ -8,7 +8,7 @@ env = os.environ.get
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = env("DJANGO_SECRET", "insecure-key")
+SECRET_KEY = env("DJANGO_SECRET_KEY", "insecure-key")
 
 DEBUG = True
 

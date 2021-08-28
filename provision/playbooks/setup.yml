@@ -93,6 +93,10 @@
     - name: Upgrade pip to latest
       pip: name=pip state=latest
 
+    - name: Install docker py
+      pip: name=docker state=present
+      tags: pip
+
     - name: Set useful sysctl settings
       sysctl: "name={{ item.name }} value={{ item.value }} sysctl_set=yes"
       with_items:

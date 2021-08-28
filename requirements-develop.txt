@@ -9,17 +9,11 @@ amqp==5.0.6
     #   -r ./requirements.txt
     #   kombu
 ansible==4.4.0
-    # via -r ./requirements.txt
+    # via -r requirements-develop.in
 ansible-core==2.11.4
-    # via
-    #   -r ./requirements.txt
-    #   ansible
+    # via ansible
 appdirs==1.4.4
     # via black
-appnope==0.1.2
-    # via
-    #   -r ./requirements.txt
-    #   ipython
 argon2-cffi==20.1.0
     # via -r ./requirements.txt
 asgiref==3.4.1
@@ -88,9 +82,7 @@ coreschema==0.0.4
 coverage==5.5
     # via -r requirements-develop.in
 cryptography==3.4.8
-    # via
-    #   -r ./requirements.txt
-    #   ansible-core
+    # via ansible-core
 decorator==5.0.9
     # via
     #   -r ./requirements.txt
@@ -340,9 +332,7 @@ requests==2.26.0
     #   -r ./requirements.txt
     #   coreapi
 resolvelib==0.5.4
-    # via
-    #   -r ./requirements.txt
-    #   ansible-core
+    # via ansible-core
 ruamel.yaml==0.17.10
     # via
     #   -r ./requirements.txt

@@ -1,6 +1,0 @@
-- hosts: web1
-  become_user: apps
-
-  tasks:
-    - debug:
-        msg: "Deploy starts!"
