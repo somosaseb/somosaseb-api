@@ -9,25 +9,25 @@
     - [ ] Page (tree, tags)
     - [ ] WebSite (settings)
     - [ ] Settings
-    - [ ] Users (tags)
-        - [ ] Permission
-        - [ ] Group
-        - [ ] Role
+    - [x] Users (tags)
+        - [x] Permission
+        - [x] Group
+        - [x] Role
     - [ ] Blog (settings) // aka Publication
         - [ ] Post aka Story (tags)
         - [ ] Collection
         - [ ] Author
-    - [ ] Events (tags, calendar)
-        - [ ] Serie
-        - [ ] Registration
-    - [ ] Organization
-        - [ ] Membership (tags)
+    - [x] Events (tags, calendar)
+        - [x] Serie
+        - [x] Registration
+    - [x] Organization
+        - [x] Membership (tags)
         - [ ] " Team. Functional group
         - [ ] " Interaction
         - [ ] " Rank
         - [ ] " Features
     - [ ] Form (settings)
         - [ ] Response
-    - [ ] Post (tree)
-        - [ ] Topic (Setting)
-        - [ ] Vote
+    - [x] Post (tree)
+        - [x] Topic (Setting)
+        - [x] Vote
