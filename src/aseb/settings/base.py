@@ -104,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/auth/login/"
 
+DEFAULT_FROM_EMAIL = "somosaseb@gmail.com"
+
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

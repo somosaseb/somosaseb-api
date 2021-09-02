@@ -1,10 +1,16 @@
+from functools import update_wrapper
+from inspect import getmembers
+
 from django.contrib import admin
-from django.contrib.admin.utils import lookup_field
+from django.contrib.admin.utils import lookup_field, unquote
 from django.contrib.admin.views import main as admin_main_views
 from django.contrib.admin.views.main import ChangeList
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.forms import forms
 from django.http import HttpRequest, JsonResponse
+from django.urls import path
+from django.utils.text import capfirst
+from rest_framework.viewsets import ViewSetMixin, _check_attr_name
 
 from aseb.core.utils import request_json_response
 
@@ -74,6 +80,18 @@ def serialize_items(
     return [{name: value for name, value in iterator(res)} for res in cl.result_list]
 
 
+def adminaction(detail: bool = None, **kwargs):
+    assert detail is not None, "@action() missing required argument: 'detail'"
+
+    def decorator(func):
+        func.url_name = func.__name__.replace("_", "-")
+        func.detail = detail
+        func.kwargs = kwargs
+        return func
+
+    return decorator
+
+
 class APIAdminModel(admin.ModelAdmin):
     def changelist_view(self, request: HttpRequest, extra_context=None):
         response = super().changelist_view(request, extra_context)
@@ -91,3 +109,51 @@ class APIAdminModel(admin.ModelAdmin):
             )
 
         return response
+
+    def get_urls(self):
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+
+            wrapper.model_admin = self
+            return update_wrapper(wrapper, view)
+
+        urlpatterns = super().get_urls()
+        extra_actions = getmembers(self.__class__, lambda prop: hasattr(prop, "detail"))
+        extra_actions = [method for name, method in extra_actions]
+
+        for action_view in extra_actions:
+            if action_view.detail:
+                urlpatterns.insert(
+                    2,  # Just before the history view
+                    path(
+                        f"<path:object_id>/{action_view.url_name}/",
+                        wrap(self.detail_view),
+                        {"action_view": action_view},
+                        name=f"{self.model._meta.app_label}_{self.model._meta.model_name}_{action_view.url_name}",
+                    ),
+                )
+
+        return urlpatterns
+
+    def detail_view(self, request, object_id, action_view):
+        opts = self.model._meta
+        app_label = opts.app_label
+        object_name = str(opts.verbose_name)
+        obj = self.get_object(request, unquote(object_id))
+
+        if obj is None:
+            return self._get_obj_does_not_exist_redirect(request, opts, object_id)
+
+        if not self.has_view_or_change_permission(request, obj):
+            raise PermissionDenied
+        context = {
+            **self.admin_site.each_context(request),
+            "object_id": object_id,
+            "object": obj,
+            "object_name": object_name,
+            "opts": opts,
+            "app_label": app_label,
+            "module_name": str(capfirst(opts.verbose_name_plural)),
+        }
+        return action_view(self, request, obj, context)

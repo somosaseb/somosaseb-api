@@ -11,7 +11,8 @@ handler404 = "aseb.core.views.not_found"
 urlpatterns = [
     path("admin/docs/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
-    path("api/", include("aseb.api.urls")),
+    path("auth/", include("aseb.apps.users.urls")),
+    path("1/", include("aseb.api.urls")),
 ]
 
 if settings.DEBUG:
