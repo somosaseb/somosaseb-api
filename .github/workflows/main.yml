@@ -2,9 +2,37 @@ name: Test and Build artifacts
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
+    paths-ignore:
+      - "bin/"
+      - "public/"
+      - "provision/"
+      - "docker-compose*"
+      - "setup.*"
+      - "*.md"
+      - "*.toml"
+      - "Makefile"
+      - "LICENSE"
+      - ".gitignore"
+      - ".dockerignore"
+      - ".editorconfig"
+      - "Dockerfile"
   pull_request:
-    branches: [ master ]
+    branches: [master]
+    paths-ignore:
+      - "bin/"
+      - "public/"
+      - "provision/"
+      - "docker-compose*"
+      - "setup.*"
+      - "*.md"
+      - "*.toml"
+      - "Makefile"
+      - "LICENSE"
+      - ".gitignore"
+      - ".dockerignore"
+      - ".editorconfig"
+      - "Dockerfile"
   workflow_dispatch:
 
 jobs:
