@@ -1,5 +1,6 @@
 from typing import Any, Dict
 
+from django.conf import settings
 from django.contrib import admin, messages
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.forms import PasswordResetForm, ReadOnlyPasswordHashField
@@ -106,7 +107,7 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
                 subject_template_name="emails/password_reset_subject.txt",
                 email_template_name="emails/password_reset_email.html",
                 domain_override=request.get_host(),
-                use_https=request.get_port() == "443",
+                use_https=settings.SECURE_SSL_REDIRECT,
             )
 
             messages.success(request, f"Reset password sent to {obj}")
