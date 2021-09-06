@@ -78,6 +78,7 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
         "is_staff",
         "is_superuser",
         "date_joined",
+        "last_login",
     )
     date_hierarchy = "date_joined"
     readonly_fields = ("secret_key", "jwt_jti")
