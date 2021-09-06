@@ -1,15 +1,25 @@
-/provision
+**/__pycache__
 /*.in
+/*.md
 /.env
 /.git
+/.github
+/.dockerignore
+
 /out
-
-/public/*
+/provision
+/public
 !/public/robots.txt
+/tests
 
+*.pyc
 *.egg-info
 .vscode
-README.md
+.idea
+.python-version
+
+docker-compose*.yml
+Dockerfile
 Makefile
 
 db.sqlite3
