@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://json.schemastore.org/ansible-playbook.json
+
+- hosts: web1
+  gather_facts: no
+
+  vars:
+    ansible_user: apps
+    ansible_ssh_user: apps
+
+    IMAGE_NAME: ghcr.io/somosaseb/somosaseb-api:latest
+    CONTAINER_NAME: api.aseb.bo
+    ENV_FILE: "/home/apps/.env"
+
+    container_default: &container_default
+      container_default_behavior: no_defaults
+      image: "{{IMAGE_NAME}}"
+      env_file: "{{ENV_FILE}}"
+      network_mode: host
+      pull: yes
+      init: yes
+
+  tasks:
+    - name: Run migrations
+      community.docker.docker_container:
+        <<: *container_default
+        name: run-migrations
+        detach: no
+        cleanup: yes
+        command: gosu app python src/manage.py migrate
+      tags:
+        - migrations
+
+    - name: Restart container
+      community.docker.docker_container:
+        <<: *container_default
+        name: "{{ CONTAINER_NAME }}"
+        detach: yes
+        restart: yes
+        recreate: yes
+        hostname: backend
+        restart_policy: unless-stopped
+        command: "/app/bin/runserver"
+        stop_timeout: 0

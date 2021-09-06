@@ -33,6 +33,9 @@ build:
 push: build
 	docker push ghcr.io/somosaseb/somosaseb-api:latest
 
+deploy: build push
+	cd provision && ansible-playbook -vv playbooks/deploy.yml
+
 docker-compose.override.yml:
 	echo 'version: "3.7"' >> docker-compose.override.yml
 
