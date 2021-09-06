@@ -104,7 +104,7 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
             form.is_valid()
             form.save(
                 domain_override=request.get_host(),
-                use_https=request.get_port() == 443,
+                use_https=request.get_port() == "443",
             )
 
             messages.success(request, f"Reset password sent to {obj}")
