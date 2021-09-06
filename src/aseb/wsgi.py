@@ -1,8 +1,8 @@
 import os
-import django
 from datetime import datetime
-from django.core.handlers.wsgi import WSGIHandler
 
+import django
+from django.core.handlers.wsgi import WSGIHandler
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aseb.settings.develop")
 
