@@ -10,7 +10,6 @@ from django.forms import forms
 from django.http import HttpRequest, JsonResponse
 from django.urls import path
 from django.utils.text import capfirst
-from rest_framework.viewsets import ViewSetMixin, _check_attr_name
 
 from aseb.core.utils import request_json_response
 
@@ -121,6 +120,7 @@ class APIAdminModel(admin.ModelAdmin):
         urlpatterns = super().get_urls()
         extra_actions = getmembers(self.__class__, lambda prop: hasattr(prop, "detail"))
         extra_actions = [method for name, method in extra_actions]
+        opts = self.model._meta
 
         for action_view in extra_actions:
             if action_view.detail:
@@ -130,7 +130,7 @@ class APIAdminModel(admin.ModelAdmin):
                         f"<path:object_id>/{action_view.url_name}/",
                         wrap(self.detail_view),
                         {"action_view": action_view},
-                        name=f"{self.model._meta.app_label}_{self.model._meta.model_name}_{action_view.url_name}",
+                        name=f"{opts.app_label}_{opts.model_name}_{action_view.url_name}",
                     ),
                 )
 
@@ -147,6 +147,7 @@ class APIAdminModel(admin.ModelAdmin):
 
         if not self.has_view_or_change_permission(request, obj):
             raise PermissionDenied
+
         context = {
             **self.admin_site.each_context(request),
             "object_id": object_id,
