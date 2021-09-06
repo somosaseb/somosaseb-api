@@ -103,6 +103,8 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
             form = PasswordResetForm(data={"email": obj.email})
             form.is_valid()
             form.save(
+                subject_template_name="emails/password_reset_subject.txt",
+                email_template_name="emails/password_reset_email.html",
                 domain_override=request.get_host(),
                 use_https=request.get_port() == "443",
             )
