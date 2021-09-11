@@ -7,10 +7,10 @@ default: requirements-develop.txt
 	python setup.py develop
 
 requirements.txt:
-	pip-compile -v requirements.in
+	pip-compile --upgrade -v requirements.in
 
 requirements-develop.txt: requirements.txt
-	pip-compile -v requirements-develop.in
+	pip-compile --upgrade -v requirements-develop.in
 
 .PHONY: runserver
 runserver:

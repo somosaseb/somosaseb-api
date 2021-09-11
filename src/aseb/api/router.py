@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.urls.conf import path
-from django.views.generic import TemplateView
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
 from rest_framework.routers import Route
@@ -29,15 +28,14 @@ class Router(routers.DefaultRouter):
         schema_view = get_schema_view(
             info=api_info,
             public=True,
-            permission_classes=(
-                permissions.AllowAny if settings.DEBUG else permissions.IsAuthenticated,
-            ),
+            permission_classes=(permissions.AllowAny,),
         )
 
         swagger_schema = schema_view.without_ui(cache_timeout=0)
+        swagger_view = schema_view.with_ui(cache_timeout=0)
 
         return [
-            path("", TemplateView.as_view(template_name="api/docs.html"), name="root-view"),
+            path("", swagger_view, name="root-view"),
             path("schema.json", swagger_schema, name="schema"),
             *urlpatterns,
         ]

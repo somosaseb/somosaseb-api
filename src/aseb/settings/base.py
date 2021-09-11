@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "drf_yasg",
     "rest_framework",
     "rest_framework_filters",
-    "rest_framework_simplejwt",
     "aseb.apps.users.apps.UsersConfig",
     "aseb.apps.events",
     "aseb.apps.organization",
@@ -152,11 +151,15 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "aseb.api.openapi.api_info",
+    "USE_SESSION_AUTH": False,
+    "PERSIST_AUTH": False,
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
     "SECURITY_DEFINITIONS": {
         "Bearer": {
-            "type": "http",
-            "scheme": "bearer",
-            "bearerFormat": "Bearer",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
         },
     },
 }

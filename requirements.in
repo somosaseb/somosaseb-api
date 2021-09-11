@@ -11,7 +11,7 @@ requests
 yarl
 emoji
 
-django
+django<3.3
 django-environ
 django-filter
 django-extensions
@@ -23,9 +23,8 @@ django-cleanup
 django-storages
 dj-database-url
 
-djangorestframework
+djangorestframework<4.0
 djangorestframework-filters>=1.0.0.dev2
-djangorestframework-simplejwt
 drf-yasg
 sentry-sdk
 
