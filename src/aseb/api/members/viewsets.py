@@ -48,7 +48,7 @@ class MemberViewSet(
     CountModelMixin,
     viewsets.GenericViewSet,
 ):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = ()
     parser_classes = (parsers.MultiPartParser, parsers.JSONParser)
     serializer_class = MemberSerializer
     serializers_classes = {

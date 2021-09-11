@@ -32,7 +32,6 @@ class ViewSet(viewsets.ViewSet):
 class ReadOnlyModelViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
-    CountModelMixin,
     GenericViewSet,
 ):
     ...
@@ -44,7 +43,6 @@ class ModelViewSet(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
-    CountModelMixin,
     GenericViewSet,
 ):
     ...
