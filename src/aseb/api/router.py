@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.urls.conf import path
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
