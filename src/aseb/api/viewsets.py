@@ -3,7 +3,6 @@ from typing import Dict, Type
 from rest_framework import generics, mixins, serializers, viewsets
 from rest_framework.viewsets import ViewSetMixin
 
-from aseb.api.mixins import CountModelMixin
 from aseb.core.exceptions import ResponseException
 
 
