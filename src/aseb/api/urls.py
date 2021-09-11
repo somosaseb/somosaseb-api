@@ -1,9 +1,9 @@
 from .auth.viewsets import AuthViewSet
 from .members.viewsets import MemberViewSet
+from .pages.viewsets import PageViewSet
 from .router import Router
 from .topics.viewsets import TopicViewSet
 from .users.viewsets import CurrentUserViewSet
-from .pages.viewsets import PageViewSet
 
 router = Router()
 

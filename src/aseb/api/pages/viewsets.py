@@ -1,6 +1,7 @@
+from rest_framework import serializers
+
 from aseb.api import viewsets
 from aseb.apps.pages.models import Page
-from rest_framework import serializers
 
 
 class PageSerializer(serializers.ModelSerializer):
