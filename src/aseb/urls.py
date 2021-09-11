@@ -12,7 +12,7 @@ urlpatterns = [
     path("admin/docs/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("aseb.apps.users.urls")),
-    path("1/", include("aseb.api.urls")),
+    path("v1/", include("aseb.api.urls")),
 ]
 
 if settings.DEBUG:
