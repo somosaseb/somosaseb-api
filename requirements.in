@@ -21,6 +21,7 @@ django-import-export
 django-ordered-model
 django-cleanup
 django-storages
+django-oauth-toolkit
 dj-database-url
 
 djangorestframework<4.0

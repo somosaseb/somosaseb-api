@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "django_editorjs_fields",
     "django_cleanup.apps.CleanupConfig",
     "drf_yasg",
+    "oauth2_provider",
     "rest_framework",
     "rest_framework_filters",
     "aseb.apps.users.apps.UsersConfig",
@@ -138,7 +139,9 @@ MEDIA_URL = "/media/"
 SILENCED_SYSTEM_CHECKS = ["fields.W342"]
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("aseb.api.authentication.TokenAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+    ),
     "DEFAULT_RENDERER_CLASSES": (
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
@@ -149,6 +152,13 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
 }
 
+OAUTH2_PROVIDER = {
+    "SCOPES": {
+        "read": "Read scope",
+        "write": "Write scope",
+    }
+}
+
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "aseb.api.openapi.api_info",
     "USE_SESSION_AUTH": False,
@@ -156,11 +166,21 @@ SWAGGER_SETTINGS = {
     "REFETCH_SCHEMA_WITH_AUTH": True,
     "REFETCH_SCHEMA_ON_LOGOUT": True,
     "SECURITY_DEFINITIONS": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-        },
+        "ASEB API": {
+            "type": "oauth2",
+            "authorizationUrl": "/auth/authorize",
+            "tokenUrl": "/auth/token/",
+            "flow": "accessCode",
+            "scopes": {
+                "read": "read",
+                "write": "write",
+            },
+        }
+    },
+    "OAUTH2_CONFIG": {
+        "clientId": "yourAppClientId",
+        "clientSecret": "yourAppClientSecret",
+        "appName": "aseb.bo",
     },
 }
 

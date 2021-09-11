@@ -27,7 +27,9 @@ certifi==2021.5.30
     #   requests
     #   sentry-sdk
 cffi==1.14.6
-    # via argon2-cffi
+    # via
+    #   argon2-cffi
+    #   cryptography
 charset-normalizer==2.0.4
     # via requests
 click==7.1.2
@@ -49,10 +51,14 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
+cryptography==3.4.8
+    # via jwcrypto
 decorator==5.1.0
     # via ipython
 defusedxml==0.7.1
     # via odfpy
+deprecated==1.2.13
+    # via jwcrypto
 diff-match-patch==20200713
     # via django-import-export
 dj-database-url==0.5.0
@@ -64,6 +70,7 @@ django==3.2.7
     #   django-filter
     #   django-import-export
     #   django-ltree
+    #   django-oauth-toolkit
     #   django-storages
     #   djangorestframework
     #   drf-yasg
@@ -82,6 +89,8 @@ django-filter==2.4.0
 django-import-export==2.5.0
     # via -r requirements.in
 django-ltree==0.5.3
+    # via -r requirements.in
+django-oauth-toolkit==1.5.0
     # via -r requirements.in
 django-ordered-model==3.4.3
     # via -r requirements.in
@@ -120,6 +129,8 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
+jwcrypto==1.0
+    # via django-oauth-toolkit
 kombu==5.1.0
     # via celery
 markuppy==1.14
@@ -130,6 +141,8 @@ matplotlib-inline==0.1.3
     # via ipython
 multidict==5.1.0
     # via yarl
+oauthlib==3.1.1
+    # via django-oauth-toolkit
 odfpy==1.4.1
     # via tablib
 openpyxl==3.0.8
@@ -181,6 +194,7 @@ requests==2.26.0
     # via
     #   -r requirements.in
     #   coreapi
+    #   django-oauth-toolkit
 ruamel.yaml==0.17.16
     # via drf-yasg
 ruamel.yaml.clib==0.2.6
@@ -193,6 +207,7 @@ six==1.16.0
     # via
     #   click-repl
     #   django-ltree
+    #   django-oauth-toolkit
     #   python-dateutil
 sqlparse==0.4.2
     # via django
@@ -226,6 +241,8 @@ wcwidth==0.2.5
     # via prompt-toolkit
 wheel==0.37.0
     # via pip-tools
+wrapt==1.12.1
+    # via deprecated
 xlrd==2.0.1
     # via tablib
 xlwt==1.3.0

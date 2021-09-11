@@ -12,6 +12,7 @@ urlpatterns = [
     path("admin/docs/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("aseb.apps.users.urls")),
+    path("oauth/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("v1/", include("aseb.api.urls")),
 ]
 

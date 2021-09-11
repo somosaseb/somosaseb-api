@@ -88,7 +88,10 @@ coreschema==0.0.4
 coverage==5.5
     # via -r requirements-develop.in
 cryptography==3.4.8
-    # via ansible-core
+    # via
+    #   -r ./requirements.txt
+    #   ansible-core
+    #   jwcrypto
 decorator==5.1.0
     # via
     #   -r ./requirements.txt
@@ -98,6 +101,10 @@ defusedxml==0.7.1
     # via
     #   -r ./requirements.txt
     #   odfpy
+deprecated==1.2.13
+    # via
+    #   -r ./requirements.txt
+    #   jwcrypto
 diff-match-patch==20200713
     # via
     #   -r ./requirements.txt
@@ -112,6 +119,7 @@ django==3.2.7
     #   django-filter
     #   django-import-export
     #   django-ltree
+    #   django-oauth-toolkit
     #   django-storages
     #   djangorestframework
     #   drf-yasg
@@ -132,6 +140,8 @@ django-filter==2.4.0
 django-import-export==2.5.0
     # via -r ./requirements.txt
 django-ltree==0.5.3
+    # via -r ./requirements.txt
+django-oauth-toolkit==1.5.0
     # via -r ./requirements.txt
 django-ordered-model==3.4.3
     # via -r ./requirements.txt
@@ -193,6 +203,10 @@ jmespath==0.10.0
     #   -r ./requirements.txt
     #   boto3
     #   botocore
+jwcrypto==1.0
+    # via
+    #   -r ./requirements.txt
+    #   django-oauth-toolkit
 kombu==5.1.0
     # via
     #   -r ./requirements.txt
@@ -225,6 +239,10 @@ mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
+oauthlib==3.1.1
+    # via
+    #   -r ./requirements.txt
+    #   django-oauth-toolkit
 odfpy==1.4.1
     # via
     #   -r ./requirements.txt
@@ -341,6 +359,7 @@ requests==2.26.0
     # via
     #   -r ./requirements.txt
     #   coreapi
+    #   django-oauth-toolkit
 resolvelib==0.5.4
     # via ansible-core
 ruamel.yaml==0.17.16
@@ -362,6 +381,7 @@ six==1.16.0
     #   -r ./requirements.txt
     #   click-repl
     #   django-ltree
+    #   django-oauth-toolkit
     #   python-dateutil
 sqlparse==0.4.2
     # via
@@ -426,7 +446,10 @@ wheel==0.37.0
     #   -r ./requirements.txt
     #   pip-tools
 wrapt==1.12.1
-    # via astroid
+    # via
+    #   -r ./requirements.txt
+    #   astroid
+    #   deprecated
 xlrd==2.0.1
     # via
     #   -r ./requirements.txt
