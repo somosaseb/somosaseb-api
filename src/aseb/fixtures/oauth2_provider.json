@@ -5,7 +5,7 @@
     "fields": {
       "client_id": "CLIENT_ID",
       "user": null,
-      "redirect_uris": "http://localhost:8000/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html",
+      "redirect_uris": "http://localhost:8000/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html\nhttps://oauth.pstmn.io/v1/callback",
       "client_type": "confidential",
       "authorization_grant_type": "authorization-code",
       "client_secret": "CLIENT_SECRET",
