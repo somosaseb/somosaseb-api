@@ -1,5 +1,6 @@
 from django.contrib.auth import views
 from django.urls import path
+
 from aseb.apps.users.views import RegisterView
 
 urlpatterns = [

@@ -2,12 +2,12 @@ from django import forms
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from django.forms import widgets
+from django.shortcuts import redirect
 from django.views.generic import FormView
 
 from aseb.apps.users.models import User
 
 from .constants import PHONE_CODES_CHOICES
-from django.shortcuts import redirect
 
 
 class RegisterForm(forms.Form):
@@ -85,6 +85,10 @@ class RegisterForm(forms.Form):
 
         with transaction.atomic():
             user = User.objects.create_user(**data)
+
+        if birthday:
+            user.membership.birthday = birthday
+            user.membership.save(update_fields=["birthday"])
 
         return user
 
