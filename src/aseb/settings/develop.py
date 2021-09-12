@@ -15,12 +15,17 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
+SWAGGER_SETTINGS["OAUTH2_CONFIG"]["clientId"] = "CLIENT_ID"  # noqa:
+SWAGGER_SETTINGS["OAUTH2_CONFIG"]["clientSecret"] = "CLIENT_SECRET"  # noqa:
+SWAGGER_SETTINGS[  # noqa:
+    "OAUTH2_REDIRECT_URL"
+] = "http://localhost:8000/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html"
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
     "SHOW_TEMPLATE_CONTEXT": True,
-    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }
 
 DEBUG_TOOLBAR_PANELS = [

@@ -1,6 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import parsers, permissions
-from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from aseb.api import viewsets
@@ -18,10 +17,7 @@ class CurrentUserViewSet(viewsets.ViewSet):
             UserSerializer(context={"request": request}).to_representation(request.user)
         )
 
-    @swagger_auto_schema(
-        request_body=UserUpdateSerializer,
-        responses={200: UserSerializer()},
-    )
+    @swagger_auto_schema(request_body=UserUpdateSerializer, responses={200: UserSerializer()})
     def create(self, request):
         serializer = UserUpdateSerializer(
             context={"request": request},
@@ -32,11 +28,6 @@ class CurrentUserViewSet(viewsets.ViewSet):
         user = serializer.save()
 
         return Response(UserSerializer(context={"request": request}).to_representation(user))
-
-    @action(detail=False, methods=["post"])
-    def logout(self, request, *args, **kwargs):
-        request.user.tokens.all().delete()
-        return Response()
 
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -1,0 +1,19 @@
+[
+  {
+    "model": "oauth2_provider.application",
+    "pk": 1,
+    "fields": {
+      "client_id": "CLIENT_ID",
+      "user": null,
+      "redirect_uris": "http://localhost:8000/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html",
+      "client_type": "confidential",
+      "authorization_grant_type": "authorization-code",
+      "client_secret": "CLIENT_SECRET",
+      "name": "aseb.bo",
+      "skip_authorization": true,
+      "created": "2021-09-12T02:14:57.377Z",
+      "updated": "2021-09-12T02:19:14.020Z",
+      "algorithm": ""
+    }
+  }
+]

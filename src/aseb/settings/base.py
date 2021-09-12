@@ -168,8 +168,8 @@ SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "ASEB API": {
             "type": "oauth2",
-            "authorizationUrl": "/auth/authorize",
-            "tokenUrl": "/auth/token/",
+            "authorizationUrl": "/oauth/authorize",
+            "tokenUrl": "/oauth/token/",
             "flow": "accessCode",
             "scopes": {
                 "read": "read",
@@ -178,8 +178,8 @@ SWAGGER_SETTINGS = {
         }
     },
     "OAUTH2_CONFIG": {
-        "clientId": "yourAppClientId",
-        "clientSecret": "yourAppClientSecret",
+        "clientId": env("OAUTH2_CLIENT_ID", ""),
+        "clientSecret": env("OAUTH2_CLIENT_SECRET", ""),
         "appName": "aseb.bo",
     },
 }
