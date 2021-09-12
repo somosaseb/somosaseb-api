@@ -86,9 +86,14 @@ class RegisterForm(forms.Form):
         with transaction.atomic():
             user = User.objects.create_user(**data)
 
-        if birthday:
-            user.membership.birthday = birthday
-            user.membership.save(update_fields=["birthday"])
+            if phone_number:
+                user.membership.contact["contact_phone"] = phone_number
+
+            if birthday:
+                user.membership.birthday = birthday
+
+            if phone_number or birthday:
+                user.membership.save(update_fields=["birthday"])
 
         return user
 
