@@ -43,7 +43,7 @@ class RegisterForm(forms.Form):
     birthday = forms.DateField(
         required=False,
         widget=widgets.DateInput(
-            attrs={"autocomplete": "off", "type": "date", "pattern": "\d{4}-\d{2}-\d{2}"}
+            attrs={"autocomplete": "off", "type": "date", "pattern": r"\d{4}-\d{2}-\d{2}"}
         ),
     )
 
