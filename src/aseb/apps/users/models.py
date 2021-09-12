@@ -17,6 +17,18 @@ class UserManager(BaseUserManager):
             return self.get(email__iexact=username)
         return self.get(username__exact=username)
 
+    @classmethod
+    def normalize_email(cls, email):
+        email = super().normalize_email(email)
+        email_name, domain_part = email.strip().rsplit("@", 1)
+
+        if domain_part == "gmail.com":
+            # Google takes no account for dots in usernames
+            # Fixes: Create unnecesary duplicated users
+            email_name.replace(".", "")
+
+        return "{email_name}@{domain_part}"
+
     def create_user(
         self,
         email: str,
