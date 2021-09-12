@@ -1,0 +1,59 @@
+{% extends "layouts/auth.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 1rem">Register</h2>
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    <div>
+        <label for="email_id">E-Mail address</label>
+        {{ form.email }}
+        {{form.errors.email }}
+    </div>
+
+    <div>
+        <label for="pasword1_id">Password</label>
+        {{ form.password1 }}
+
+    </div>
+
+    <div>
+        <label for="pasword2_id">Confirm Password</label>
+        {{ form.password2 }}
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="col">
+                <label for="first_name_id">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="col">
+                <label for="last_name_id">Last Name</label>
+                {{ form.last_name }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="phone_number_id">Phone</label>
+        <div class="row">
+            <div class="col">
+                {{ form.phone_country_code }}
+            </div>
+            <div class="col">
+                {{ form.phone_number }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="birthday_id">Birthday</label>
+        {{ form.birthday }}
+    </div>
+    <div>
+        <button type="submit" style="width: 100%">Enviar</button>
+    </div>
+</form>
+{% endblock %}

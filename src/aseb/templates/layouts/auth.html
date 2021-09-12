@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="robots" content="noimageindex, nofollow, nosnippet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -ms-overflow-style: scrollbar;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        html,
+        body,
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #fff;
+
+            font-size: 17px;
+            line-height: 1.52947;
+            font-weight: 400;
+            letter-spacing: -.021em;
+            font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        main {
+            min-width: 600px;
+        }
+
+        form {
+            padding: 0;
+            margin: 0;
+            display: block;
+
+            padding: 1rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.01);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+        }
+
+        form>div {
+            display: block;
+            margin: 0 0 1rem 0;
+        }
+
+        form>div:last-child {
+            margin-bottom: 0;
+        }
+
+        form label {
+            font-weight: 600;
+            font-size: .9rem;
+            display: block;
+            width: 100%;
+            color: rgba(0, 0, 0, .75);
+            margin-bottom: .15rem;
+        }
+
+        form input[type=text],
+        form input[type=password],
+        form input[type=email],
+        form input[type=date],
+        form select {
+            display: block;
+            width: 100%;
+            padding: .5rem .75rem;
+            border: 1px solid #d6d6d6;
+            border-radius: 5px;
+            height: 2rem;
+            margin: 0;
+        }
+
+        form select {
+            display: inline-block;
+            padding-right: 24px;
+            background-color: #fff;
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0iIzU4NjA2OSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNC40MjcgOS40MjdsMy4zOTYgMy4zOTZhLjI1MS4yNTEgMCAwMC4zNTQgMGwzLjM5Ni0zLjM5NkEuMjUuMjUgMCAwMDExLjM5NiA5SDQuNjA0YS4yNS4yNSAwIDAwLS4xNzcuNDI3ek00LjQyMyA2LjQ3TDcuODIgMy4wNzJhLjI1LjI1IDAgMDEuMzU0IDBMMTEuNTcgNi40N2EuMjUuMjUgMCAwMS0uMTc3LjQyN0g0LjZhLjI1LjI1IDAgMDEtLjE3Ny0uNDI3eiIgLz48L3N2Zz4=);
+            background-repeat: no-repeat;
+            background-position: right 4px center;
+            background-size: 16px;
+            appearance: none;
+        }
+
+        form button {
+            position: relative;
+            display: inline-block;
+            padding: 5px 1rem;
+
+            line-height: 1.5rem;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid;
+            border-radius: 6px;
+            appearance: none;
+
+        }
+
+        form button[type=submit] {
+            color: #fff;
+            background-color: #2da44e;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: .5rem;
+            display: flex;
+            flex-direction: column;
+            font-size: .8rem;
+
+            border: 1px solid tomato;
+            border-radius: 3px;
+            background-color: rgb(255, 236, 232);
+        }
+
+        .errorlist>li {
+            margin: 0;
+            padding: .5rem .75rem;
+            color: tomato;
+        }
+
+        .row {
+            display: flex
+        }
+
+        .row>.col {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+
+        .row>.col:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>

@@ -83,7 +83,7 @@ class UserAdmin(auth_admin.UserAdmin, APIAdminModel):
         "last_login",
     )
     date_hierarchy = "date_joined"
-    readonly_fields = ("secret_key", "jwt_jti")
+    readonly_fields = ("secret_key",)
 
     def get_inlines(self, request: HttpRequest, obj):
         if not obj:

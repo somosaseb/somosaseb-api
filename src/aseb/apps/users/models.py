@@ -85,7 +85,6 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=256, blank=True)
     last_name = models.CharField(max_length=256, blank=True)
     secret_key = models.CharField(max_length=42, default=get_random_secret_key)
-    jwt_jti = models.CharField(max_length=256, blank=True, editable=False)
 
     objects = UserManager()
 
