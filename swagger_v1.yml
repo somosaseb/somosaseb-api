@@ -1,0 +1,850 @@
+swagger: '2.0'
+info:
+  title: ASEB API
+  version: v1
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  ASEB API:
+    type: oauth2
+    authorizationUrl: /oauth/authorize
+    tokenUrl: /oauth/token/
+    flow: accessCode
+    scopes:
+      read: read
+      write: write
+security:
+  - ASEB API: []
+paths:
+  /auth/register/:
+    post:
+      operationId: auth_register
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Register'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+      tags:
+        - auth
+    parameters: []
+  /me/:
+    get:
+      operationId: me_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      consumes:
+        - multipart/form-data
+      tags:
+        - me
+    post:
+      operationId: me_create
+      description: ''
+      parameters:
+        - name: first_name
+          in: formData
+          required: false
+          type: string
+          maxLength: 256
+        - name: last_name
+          in: formData
+          required: false
+          type: string
+          maxLength: 256
+        - name: avatar
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      consumes:
+        - multipart/form-data
+      tags:
+        - me
+    parameters: []
+  /members/:
+    get:
+      operationId: members_list
+      description: ''
+      parameters:
+        - name: type
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: slug
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: birthday
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: position
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: visibility
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: activated_at
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: expires_at
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: partner_since
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Member'
+      tags:
+        - members
+    parameters: []
+  /members/count/:
+    get:
+      operationId: members_count
+      description: ''
+      parameters:
+        - name: type
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: slug
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: birthday
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: position
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: visibility
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: activated_at
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: expires_at
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: partner_since
+          in: query
+          description: ''
+          required: false
+          type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: int32
+      tags:
+        - members
+    parameters: []
+  /members/{slug}/:
+    get:
+      operationId: members_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/MemberRetrieve'
+      tags:
+        - members
+    put:
+      operationId: members_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MemberUpdate'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Member'
+      tags:
+        - members
+    patch:
+      operationId: members_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MemberUpdate'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Member'
+      tags:
+        - members
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        type: string
+  /pages/:
+    get:
+      operationId: pages_list
+      description: ''
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Page'
+      tags:
+        - pages
+    parameters: []
+  /pages/{id}/:
+    get:
+      operationId: pages_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Page'
+      tags:
+        - pages
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+  /topics/:
+    get:
+      operationId: topics_list
+      description: ''
+      parameters:
+        - name: prefix
+          in: query
+          description: ''
+          required: true
+          type: string
+        - name: name
+          in: query
+          description: ''
+          required: false
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+      tags:
+        - topics
+    parameters: []
+  /topics/count/:
+    get:
+      operationId: topics_count
+      description: ''
+      parameters:
+        - name: prefix
+          in: query
+          description: ''
+          required: true
+          type: string
+        - name: name
+          in: query
+          description: ''
+          required: false
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: int32
+      tags:
+        - topics
+    parameters: []
+definitions:
+  Register:
+    required:
+      - email
+      - password
+    type: object
+    properties:
+      email:
+        title: Email
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      first_name:
+        title: First name
+        type: string
+        maxLength: 256
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 256
+  Membership:
+    required:
+      - type
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      type:
+        title: Type
+        type: string
+        enum:
+          - member
+          - partner
+      visibility:
+        title: Visibility
+        type: string
+        enum:
+          - public
+          - open
+          - private
+        x-nullable: true
+  User:
+    required:
+      - email
+    type: object
+    properties:
+      email:
+        title: Email
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      first_name:
+        title: First name
+        type: string
+        maxLength: 256
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 256
+      avatar:
+        title: Avatar
+        type: string
+        readOnly: true
+        format: uri
+      is_staff:
+        title: Staff status
+        description: Designates whether the user can log into this admin site.
+        type: boolean
+      is_active:
+        title: Active
+        description: Designates whether this user should be treated as active. Unselect
+          this instead of deleting accounts.
+        type: boolean
+      date_joined:
+        title: Date joined
+        type: string
+        format: date-time
+      membership:
+        $ref: '#/definitions/Membership'
+  MemberTopic:
+    required:
+      - name
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        minLength: 1
+  Company:
+    required:
+      - slug
+      - display_name
+    type: object
+    properties:
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 50
+        minLength: 1
+      display_name:
+        title: Display name
+        type: string
+        maxLength: 140
+        minLength: 1
+      size:
+        title: Size
+        type: integer
+        enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+        x-nullable: true
+      headline:
+        title: Headline
+        type: string
+        maxLength: 140
+      presentation:
+        title: Presentation
+        type: string
+      main_image:
+        title: Main image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      contact:
+        title: Contact
+        type: object
+  Member:
+    required:
+      - title
+      - first_name
+      - last_name
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      title:
+        title: Title
+        type: string
+        maxLength: 100
+        minLength: 1
+      main_image:
+        title: Main image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      display_name:
+        title: Display name
+        type: string
+        maxLength: 140
+      headline:
+        title: Headline
+        type: string
+        maxLength: 140
+      presentation:
+        title: Presentation
+        type: string
+      contact:
+        title: Contact
+        type: object
+      topics:
+        type: array
+        items:
+          $ref: '#/definitions/MemberTopic'
+        readOnly: true
+      first_name:
+        title: First name
+        type: string
+        maxLength: 140
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 140
+        minLength: 1
+      type:
+        title: Type
+        type: string
+        readOnly: true
+      position:
+        title: Position
+        type: string
+        readOnly: true
+      company:
+        $ref: '#/definitions/Company'
+      partner_since:
+        title: Partner since
+        type: string
+        format: date
+        x-nullable: true
+      activated_at:
+        title: Activated at
+        type: string
+        format: date
+        x-nullable: true
+      expires_at:
+        title: Expires at
+        type: string
+        format: date
+        x-nullable: true
+  MemberNominatedBy:
+    required:
+      - slug
+      - first_name
+      - last_name
+    type: object
+    properties:
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 50
+        minLength: 1
+      first_name:
+        title: First name
+        type: string
+        maxLength: 140
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 140
+        minLength: 1
+      main_image:
+        title: Main image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+  MemberRetrieve:
+    required:
+      - slug
+      - title
+      - first_name
+      - last_name
+    type: object
+    properties:
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 50
+        minLength: 1
+      title:
+        title: Title
+        type: string
+        maxLength: 100
+        minLength: 1
+      main_image:
+        title: Main image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      display_name:
+        title: Display name
+        type: string
+        maxLength: 140
+      headline:
+        title: Headline
+        type: string
+        maxLength: 140
+      presentation:
+        title: Presentation
+        type: string
+      contact:
+        title: Contact
+        type: object
+      topics:
+        type: array
+        items:
+          $ref: '#/definitions/MemberTopic'
+        readOnly: true
+      first_name:
+        title: First name
+        type: string
+        maxLength: 140
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 140
+        minLength: 1
+      type:
+        title: Type
+        type: string
+        readOnly: true
+      position:
+        title: Position
+        type: string
+        readOnly: true
+      company:
+        $ref: '#/definitions/Company'
+      nominated_by:
+        type: array
+        items:
+          $ref: '#/definitions/MemberNominatedBy'
+        readOnly: true
+      partner_since:
+        title: Partner since
+        type: string
+        format: date
+        x-nullable: true
+      activated_at:
+        title: Activated at
+        type: string
+        format: date
+        x-nullable: true
+      expires_at:
+        title: Expires at
+        type: string
+        format: date
+        x-nullable: true
+      mentor_since:
+        title: Mentor since
+        type: string
+        format: date-time
+        x-nullable: true
+      mentor_topics:
+        type: array
+        items:
+          $ref: '#/definitions/MemberTopic'
+        readOnly: true
+      mentor_presentation:
+        title: Mentor presentation
+        type: string
+  MemberUpdateTopic:
+    required:
+      - name
+      - emoji
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      emoji:
+        title: Emoji
+        type: string
+        minLength: 1
+  MemberUpdate:
+    required:
+      - slug
+      - first_name
+      - last_name
+      - topics
+      - contact
+    type: object
+    properties:
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 50
+        minLength: 1
+      main_image:
+        title: Main image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      first_name:
+        title: First name
+        type: string
+        maxLength: 140
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 140
+        minLength: 1
+      display_name:
+        title: Display name
+        type: string
+        maxLength: 140
+      birthday:
+        title: Birthday
+        type: string
+        format: date
+        x-nullable: true
+      headline:
+        title: Headline
+        type: string
+        maxLength: 140
+      presentation:
+        title: Presentation
+        type: string
+      topics:
+        type: array
+        items:
+          $ref: '#/definitions/MemberUpdateTopic'
+      contact:
+        title: Contact
+        type: object
+        additionalProperties:
+          type: string
+          x-nullable: true
+  Page:
+    required:
+      - path
+      - title
+    type: object
+    properties:
+      path:
+        title: Path
+        type: string
+        pattern: ^(?P<root>[a-zA-Z][a-zA-Z0-9_]*)(?:.[a-zA-Z|a-zA-Z0-9_]+)*$
+        minLength: 1
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 50
+      title:
+        title: Title
+        type: string
+        maxLength: 100
+        minLength: 1
+      content:
+        title: Content
+        type: object
+        x-nullable: true
+  Topic:
+    required:
+      - name
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        maxLength: 250
+        minLength: 1
+      emoji:
+        title: Emoji
+        type: string
+        maxLength: 3
